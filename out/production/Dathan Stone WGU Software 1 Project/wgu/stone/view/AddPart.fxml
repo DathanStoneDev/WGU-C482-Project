@@ -4,13 +4,17 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.PartController">
    <children>
       <Label layoutX="25.0" layoutY="38.0" prefHeight="17.0" prefWidth="68.0" text="Add Part" />
-      <RadioButton fx:id="inHouse" layoutX="135.0" layoutY="38.0" mnemonicParsing="false" text="In-House" />
-      <RadioButton fx:id="outsource" layoutX="250.0" layoutY="38.0" mnemonicParsing="false" text="Outsourced" />
+      <RadioButton fx:id="inHousePartButton" layoutX="135.0" layoutY="38.0" mnemonicParsing="false" selected="true" text="In-House">
+         <toggleGroup>
+            <ToggleGroup fx:id="addPartGroup" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="outsourcePartButton" layoutX="250.0" layoutY="38.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$addPartGroup" />
       <TextField layoutX="135.0" layoutY="102.0" />
       <TextField layoutX="135.0" layoutY="138.0" />
       <TextField layoutX="135.0" layoutY="175.0" />

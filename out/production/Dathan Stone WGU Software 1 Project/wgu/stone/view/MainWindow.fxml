@@ -27,7 +27,7 @@
             </TableView>
             <Button fx:id="partAddButton" layoutX="258.0" layoutY="236.0" mnemonicParsing="false" onAction="#addPartButtonSelected" text="Add" />
             <Button fx:id="modifyPart" layoutX="319.0" layoutY="236.0" mnemonicParsing="false" onAction="#modifyPartButtonSelected" text="Modify" />
-            <Button fx:id="deletePart" layoutX="389.0" layoutY="236.0" mnemonicParsing="false" text="Delete" />
+            <Button fx:id="deleteButton" layoutX="389.0" layoutY="236.0" mnemonicParsing="false" onAction="#deleteButtonPressed" text="Delete" />
             <Label layoutX="8.0" text="Parts" />
          </children>
       </Pane>
@@ -43,10 +43,10 @@
             </TableView>
             <Button fx:id="addProduct" layoutX="258.0" layoutY="236.0" mnemonicParsing="false" onAction="#addProductButtonSelected" text="Add" />
             <Button fx:id="modifyProduct" layoutX="319.0" layoutY="236.0" mnemonicParsing="false" onAction="#modifyProductButtonSelected" text="Modify" />
-            <Button fx:id="deleteProduct" layoutX="389.0" layoutY="236.0" mnemonicParsing="false" text="Delete" />
+            <Button fx:id="deleteProduct" layoutX="389.0" layoutY="236.0" mnemonicParsing="false" onAction="#deleteButtonPressedProduct" text="Delete" />
             <Label layoutX="14.0" layoutY="6.0" text="Products" />
          </children>
       </Pane>
-      <Button layoutX="865.0" layoutY="558.0" mnemonicParsing="false" text="Exit" />
+      <Button fx:id="exitAppButton" layoutX="865.0" layoutY="558.0" mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
    </children>
 </AnchorPane>

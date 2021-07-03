@@ -5,6 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import wgu.stone.model.InHousePart;
+import wgu.stone.model.Inventory;
+import wgu.stone.model.Part;
+import wgu.stone.model.Product;
 
 public class Main extends Application {
 
@@ -18,6 +22,29 @@ public class Main extends Application {
 
 
     public static void main(String[] args) {
+
+
+        Part part1 = new InHousePart(1, "Yeeters", 4.5, 5, 1, 8,546);
+        Part part2 = new InHousePart(1, "Sup", 4.5, 5, 1, 8,546);
+        Part part3 = new InHousePart(1, "Nope", 4.5, 5, 1, 8,546);
+        Part part4 = new InHousePart(1, "Ahhhh", 4.5, 5, 1, 8,546);
+        Inventory.addPart(part1);
+        Inventory.addPart(part2);
+        Inventory.addPart(part3);
+        Inventory.addPart(part4);
+
+
+        Product product1 = new Product(1, "Yessir" , 76.89, 67, 2, 89);
+        Product product2 = new Product(1, "Yessir" , 76.89, 67, 2, 89);
+        Product product3 = new Product(1, "Yessir" , 76.89, 67, 2, 89);
+        Product product4 = new Product(1, "Yessir" , 76.89, 67, 2, 89);
+        Product product5 = new Product(1, "Yessir" , 76.89, 67, 2, 89);
+        Inventory.addProduct(product1);
+        Inventory.addProduct(product2);
+        Inventory.addProduct(product3);
+        Inventory.addProduct(product4);
+        Inventory.addProduct(product5);
+
         launch(args);
     }
 }

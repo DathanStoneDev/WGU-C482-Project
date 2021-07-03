@@ -1,12 +1,15 @@
 package wgu.stone.model;
 
+
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 
 public class Inventory {
 
-    private static ObservableList<Part> allParts;
-    private static ObservableList<Product> allProducts;
+
+    private static ObservableList<Part> allParts = FXCollections.observableArrayList();
+    private static ObservableList<Product> allProducts =FXCollections.observableArrayList();
 
     public Inventory() {
     }
@@ -61,14 +64,15 @@ public class Inventory {
     public static void updateProduct(int index, Product newProduct) {
 
     }
-    //deletes part
+    //deletes a part
     public static boolean deletePart(Part selectedPart) {
-       return true;
+        allParts.remove(selectedPart);
+        return true;
     }
 
-    //deletes product
+    //deletes a product
     public static boolean deleteProduct(Product selectedProduct) {
-        return true;
+        return allProducts.remove(selectedProduct);
     }
 
     public static ObservableList<Part> getAllParts() {
