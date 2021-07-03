@@ -17,12 +17,12 @@
       </Label>
       <Pane layoutX="11.0" layoutY="230.0" prefHeight="290.0" prefWidth="455.0">
          <children>
-            <TableView layoutX="-6.0" layoutY="26.0" prefHeight="210.0" prefWidth="455.0">
+            <TableView fx:id="tableView" layoutX="-6.0" layoutY="26.0" prefHeight="210.0" prefWidth="455.0">
               <columns>
-                <TableColumn text="Part ID" />
-                <TableColumn prefWidth="129.0" text="Part name" />
-                  <TableColumn prefWidth="103.0" text="Inventory Level" />
-                  <TableColumn prefWidth="131.0" text="Price/ Cost Per Unit" />
+                <TableColumn fx:id="partIdColumn" text="Part ID" />
+                <TableColumn fx:id="partNameColumn" prefWidth="129.0" text="Part name" />
+                  <TableColumn fx:id="partInvColumn" prefWidth="103.0" text="Inventory Level" />
+                  <TableColumn fx:id="partPriceColumn" prefWidth="131.0" text="Price/ Cost Per Unit" />
               </columns>
             </TableView>
             <Button fx:id="partAddButton" layoutX="258.0" layoutY="236.0" mnemonicParsing="false" onAction="#addPartButtonSelected" text="Add" />
