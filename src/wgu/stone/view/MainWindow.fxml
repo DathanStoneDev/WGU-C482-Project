@@ -17,7 +17,7 @@
       </Label>
       <Pane layoutX="11.0" layoutY="230.0" prefHeight="290.0" prefWidth="455.0">
          <children>
-            <TableView fx:id="tableView" layoutX="-6.0" layoutY="26.0" prefHeight="210.0" prefWidth="455.0">
+            <TableView fx:id="partTableView" layoutX="-6.0" layoutY="26.0" prefHeight="210.0" prefWidth="455.0">
               <columns>
                 <TableColumn fx:id="partIdColumn" text="Part ID" />
                 <TableColumn fx:id="partNameColumn" prefWidth="129.0" text="Part name" />
@@ -33,12 +33,12 @@
       </Pane>
       <Pane layoutX="466.0" layoutY="220.0" prefHeight="300.0" prefWidth="455.0">
          <children>
-            <TableView layoutY="35.0" prefHeight="201.0" prefWidth="455.0">
+            <TableView fx:id="productTableView" layoutY="35.0" prefHeight="201.0" prefWidth="455.0">
                <columns>
-                  <TableColumn text="Product ID" />
-                  <TableColumn prefWidth="129.0" text="Product Name" />
-                  <TableColumn prefWidth="103.0" text="Inventory Level" />
-                  <TableColumn prefWidth="131.0" text="Price/ Cost Per Unit" />
+                  <TableColumn fx:id="productIdColumn" text="Product ID" />
+                  <TableColumn fx:id="productNameColumn" prefWidth="129.0" text="Product Name" />
+                  <TableColumn fx:id="productInvColumn" prefWidth="103.0" text="Inventory Level" />
+                  <TableColumn fx:id="productPriceColumn" prefWidth="131.0" text="Price/ Cost Per Unit" />
                </columns>
             </TableView>
             <Button fx:id="addProduct" layoutX="258.0" layoutY="236.0" mnemonicParsing="false" onAction="#addProductButtonSelected" text="Add" />
