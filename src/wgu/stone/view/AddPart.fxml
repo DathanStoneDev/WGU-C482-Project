@@ -15,21 +15,21 @@
             <ToggleGroup fx:id="addPartGroup" />
          </toggleGroup></RadioButton>
       <RadioButton fx:id="outsourcePartButton" layoutX="250.0" layoutY="38.0" mnemonicParsing="false" text="Outsourced" toggleGroup="$addPartGroup" />
-      <TextField layoutX="135.0" layoutY="102.0" />
-      <TextField layoutX="135.0" layoutY="138.0" />
-      <TextField layoutX="135.0" layoutY="175.0" />
-      <TextField layoutX="135.0" layoutY="214.0" />
-      <TextField layoutX="135.0" layoutY="248.0" />
-      <TextField layoutX="135.0" layoutY="286.0" />
+      <TextField fx:id="partIdField" layoutX="135.0" layoutY="102.0" />
+      <TextField fx:id="partNameField" layoutX="135.0" layoutY="138.0" />
+      <TextField fx:id="partInvField" layoutX="135.0" layoutY="175.0" />
+      <TextField fx:id="partPriceField" layoutX="135.0" layoutY="214.0" />
+      <TextField fx:id="partMaxField" layoutX="135.0" layoutY="248.0" />
+      <TextField fx:id="partMachineIdField" layoutX="135.0" layoutY="286.0" />
       <Label layoutX="72.0" layoutY="106.0" text="ID" />
       <Label layoutX="72.0" layoutY="142.0" text="Name" />
       <Label layoutX="72.0" layoutY="179.0" text="Inv" />
       <Label layoutX="72.0" layoutY="218.0" text="Price/ Cost" />
       <Label layoutX="72.0" layoutY="252.0" text="Max" />
       <Label layoutX="72.0" layoutY="290.0" text="Machine ID" />
-      <TextField layoutX="346.0" layoutY="248.0" />
+      <TextField fx:id="partMinField" layoutX="346.0" layoutY="248.0" />
       <Label layoutX="300.0" layoutY="252.0" text="Min" />
-      <Button fx:id="savePart" layoutX="130.0" layoutY="345.0" mnemonicParsing="false" text="Save" />
-      <Button fx:id="cancelAdd" layoutX="198.0" layoutY="345.0" mnemonicParsing="false" text="Cancel" />
+      <Button layoutX="130.0" layoutY="345.0" mnemonicParsing="false" onAction="#savePart" text="Save" />
+      <Button fx:id="cancelAdd" layoutX="198.0" layoutY="345.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
    </children>
 </AnchorPane>

@@ -11,8 +11,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import wgu.stone.model.*;
-
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -90,19 +88,19 @@ public class MainController implements Initializable {
 
     //exits the application
     @FXML
-    public void exitApplication(ActionEvent event) {
+    public void exitApplication() {
         Stage window = (Stage) exitAppButton.getScene().getWindow();
         window.close();
     }
 
     @FXML
-    public void deleteButtonPressed(ActionEvent event) {
+    public void deleteButtonPressed() {
         Part part = partTableView.getSelectionModel().getSelectedItem();
         Inventory.deletePart(part);
     }
 
     @FXML
-    public void deleteButtonPressedProduct(ActionEvent event) {
+    public void deleteButtonPressedProduct() {
         Product product = productTableView.getSelectionModel().getSelectedItem();
         Inventory.deleteProduct(product);
     }
