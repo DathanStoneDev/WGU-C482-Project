@@ -1,11 +1,13 @@
 package wgu.stone.model;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
 
 public class Product {
 
 
-    private ObservableList<Part> associatedParts;
+    private ObservableList<Part> associatedParts = FXCollections.observableArrayList();
     private int productId;
     private String productName;
     private double productPrice;
