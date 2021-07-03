@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="827.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="26.0" layoutY="22.0" text="Add Product" />
@@ -17,12 +16,12 @@
       <Label layoutX="36.0" layoutY="235.0" text="Price" />
       <Label layoutX="36.0" layoutY="280.0" text="Max" />
       <Label layoutX="225.0" layoutY="280.0" text="Min" />
-      <TextField layoutX="76.0" layoutY="106.0" />
-      <TextField layoutX="76.0" layoutY="149.0" />
-      <TextField layoutX="76.0" layoutY="188.0" />
-      <TextField layoutX="76.0" layoutY="223.0" />
-      <TextField layoutX="68.0" layoutY="276.0" />
-      <TextField layoutX="254.0" layoutY="276.0" />
+      <TextField fx:id="autoId" layoutX="76.0" layoutY="106.0" />
+      <TextField fx:id="productName" layoutX="76.0" layoutY="149.0" />
+      <TextField fx:id="invAmount" layoutX="76.0" layoutY="188.0" />
+      <TextField fx:id="price" layoutX="76.0" layoutY="223.0" />
+      <TextField fx:id="max" layoutX="68.0" layoutY="276.0" />
+      <TextField fx:id="min" layoutX="254.0" layoutY="276.0" />
       <TableView layoutX="414.0" layoutY="27.0" prefHeight="200.0" prefWidth="387.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
@@ -35,9 +34,9 @@
             <TableColumn prefWidth="75.0" text="C2" />
          </columns>
       </TableView>
-      <Button layoutX="727.0" layoutY="231.0" mnemonicParsing="false" text="Add" />
-      <Button layoutX="628.0" layoutY="490.0" mnemonicParsing="false" text="Save" />
-      <Button layoutX="720.0" layoutY="490.0" mnemonicParsing="false" text="Cancel" />
-      <Button layoutX="628.0" layoutY="458.0" mnemonicParsing="false" text="Remove Associated Part" />
+      <Button fx:id="addProduct" layoutX="727.0" layoutY="231.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="save" layoutX="628.0" layoutY="490.0" mnemonicParsing="false" text="Save" />
+      <Button fx:id="cancelProductAdd" layoutX="720.0" layoutY="490.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="removePart" layoutX="628.0" layoutY="458.0" mnemonicParsing="false" text="Remove Associated Part" />
    </children>
 </AnchorPane>

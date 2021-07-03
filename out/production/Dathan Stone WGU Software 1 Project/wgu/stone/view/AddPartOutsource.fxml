@@ -6,12 +6,11 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="25.0" layoutY="38.0" prefHeight="17.0" prefWidth="68.0" text="Add Part" />
-      <RadioButton layoutX="135.0" layoutY="38.0" mnemonicParsing="false" onAction="#inHouse" text="In-House" />
-      <RadioButton layoutX="250.0" layoutY="38.0" mnemonicParsing="false" onAction="#outsource" text="Outsourced" />
+      <RadioButton fx:id="inHouse" layoutX="135.0" layoutY="38.0" mnemonicParsing="false" text="In-House" />
+      <RadioButton fx:id="outsource" layoutX="250.0" layoutY="38.0" mnemonicParsing="false" text="Outsourced" />
       <TextField layoutX="135.0" layoutY="102.0" />
       <TextField layoutX="135.0" layoutY="138.0" />
       <TextField layoutX="135.0" layoutY="175.0" />
@@ -26,7 +25,7 @@
       <Label layoutX="41.0" layoutY="290.0" text="Company Name" />
       <TextField layoutX="346.0" layoutY="248.0" />
       <Label layoutX="300.0" layoutY="252.0" text="Min" />
-      <Button layoutX="130.0" layoutY="345.0" mnemonicParsing="false" text="Save" />
-      <Button layoutX="198.0" layoutY="345.0" mnemonicParsing="false" text="Cancel" />
+      <Button fx:id="savePart" layoutX="130.0" layoutY="345.0" mnemonicParsing="false" text="Save" />
+      <Button fx:id="cancelAdd" layoutX="198.0" layoutY="345.0" mnemonicParsing="false" text="Cancel" />
    </children>
 </AnchorPane>
