@@ -6,13 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import wgu.stone.model.InHousePart;
 import wgu.stone.model.Inventory;
-import javafx.scene.control.TextField;
+import wgu.stone.model.OutsourcedPart;
+import wgu.stone.model.Part;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -39,14 +39,31 @@ public class PartController implements Initializable {
     private RadioButton inHousePartButton;
     @FXML
     private RadioButton outsourcePartButton;
-    @FXML
-    private Button savePartButton;
+
 
     //toggle group
     @FXML
     private ToggleGroup addPartGroup;
 
+    @FXML
+    private Label labelChange;
 
+    boolean isInHouse;
+
+    @FXML
+    private void buttonInHouse(){
+        labelChange.setText("Machine ID");
+        isInHouse = true;
+    }
+
+    @FXML
+    private void buttonOutsource(){
+        labelChange.setText("Company");
+        isInHouse = false;
+
+    }
+
+    //change this name to saveNew Part
     @FXML
     public void savePart(ActionEvent event) throws IOException{
 
@@ -56,9 +73,13 @@ public class PartController implements Initializable {
         double price = Double.parseDouble(partPriceField.getText());
         int min = Integer.parseInt(partMinField.getText());
         int max = Integer.parseInt(partMaxField.getText());
-        int machineId = Integer.parseInt(partMachineIdField.getText());
+        String machineId = (partMachineIdField.getText());
 
-        Inventory.addPart(new InHousePart(id, name, price, inv, min, max, machineId));
+        if(isInHouse){
+            Inventory.addPart(new InHousePart(id, name, price, inv, min, max, Integer.parseInt(machineId)));
+        } else {
+            Inventory.addPart(new OutsourcedPart(id, name, price, inv, min, max, machineId));
+        }
 
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
         Scene returnHomeScene = new Scene(returnHome);
@@ -66,7 +87,6 @@ public class PartController implements Initializable {
         window.setScene(returnHomeScene);
         window.show();
     }
-
 
     @FXML
     public void cancelButton(ActionEvent event) throws IOException {
@@ -77,13 +97,25 @@ public class PartController implements Initializable {
         window.show();
     }
 
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         addPartGroup = new ToggleGroup();
         inHousePartButton.setToggleGroup(addPartGroup);
         outsourcePartButton.setToggleGroup(addPartGroup);
+        inHousePartButton.setSelected(true);
+    }
+    //maybe delete this and try again.
+    public void setPartInModifyPage(Part part) {
+        partIdField.setText(Integer.toString(part.getId()));
+        partNameField.setText(part.getName());
+        partInvField.setText(Integer.toString(part.getStock()));
+        partPriceField.setText(Double.toString(part.getPrice()));
+        partMaxField.setText(Integer.toString(part.getMax()));
+        partMinField.setText(Integer.toString(part.getMin()));
+
+        if(part instanceof InHousePart)  {
+            InHousePart inHousePart = (InHousePart) part;
+            partMachineIdField.setText(Integer.toString(inHousePart.getMachineId()));
+        }
     }
 }

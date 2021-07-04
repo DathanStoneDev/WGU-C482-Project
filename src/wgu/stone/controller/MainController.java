@@ -46,8 +46,7 @@ public class MainController implements Initializable {
     //buttons
     @FXML
     private Button exitAppButton;
-    @FXML
-    private Button deletePartButton;
+
 
 
     //When the "add" button is selected on the parts tableview, this goes to the scene AddPartInHouse.
@@ -61,11 +60,18 @@ public class MainController implements Initializable {
 
     //When the "Modify" button is selected on the parts tableview, this goes to the scene AddPartInHouse.
     public void modifyPartButtonSelected(ActionEvent event) throws IOException {
-        Parent modifyPartInHouse = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddPart.fxml"));
-        Scene modifyPartInHouseScene = new Scene(modifyPartInHouse);
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/wgu/stone/view/ModifyPart.fxml"));
+        Parent mainWindow;
+        mainWindow = loader.load();
+        Scene modifyPartInHouseScene = new Scene(mainWindow);
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(modifyPartInHouseScene);
         window.show();
+
+        PartController controller = loader.getController();
+        Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
+        controller.setPartInModifyPage(selectedPart);
     }
 
     //When the "add" button is selected on the products tableview, this goes to the scene AddProductForm

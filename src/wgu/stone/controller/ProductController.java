@@ -14,11 +14,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import wgu.stone.model.InHousePart;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.Part;
 import wgu.stone.model.Product;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -81,6 +79,12 @@ public class ProductController implements Initializable {
     }
 
     @FXML
+    public void removeAssociatedPart() {
+        Part part = associatedTableView.getSelectionModel().getSelectedItem();
+        holdParts.remove(part);
+    }
+
+    @FXML
     public void saveProduct(ActionEvent event) throws IOException {
 
         int productId = Integer.parseInt(productIdField.getText());
@@ -102,6 +106,17 @@ public class ProductController implements Initializable {
         window.setScene(returnHomeScene);
         window.show();
     }
+
+    @FXML
+    public void cancelButton(ActionEvent event) throws IOException {
+        Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
+        Scene returnHomeScene = new Scene(returnHome);
+        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        window.setScene(returnHomeScene);
+        window.show();
+
+    }
+
 
 
 
