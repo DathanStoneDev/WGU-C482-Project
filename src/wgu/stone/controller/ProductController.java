@@ -1,14 +1,25 @@
 package wgu.stone.controller;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import wgu.stone.model.InHousePart;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.Part;
 import wgu.stone.model.Product;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,20 +47,60 @@ public class ProductController implements Initializable {
     @FXML
     private TableColumn<Part, Double> associatedPriceColumn;
 
+    @FXML
+    private TextField productIdField;
+    @FXML
+    private TextField productNameField;
+    @FXML
+    private TextField productPriceField;
+    @FXML
+    private TextField productStockField;
+    @FXML
+    private TextField minProductField;
+    @FXML
+    private TextField maxProductField;
+
+    Product product = new Product();
+    ObservableList<Part> holdParts = FXCollections.observableArrayList();
 
 
-//associatedParts.add(part);
 
+    /*
+    * Need to do a check. 1. not having duplicate added parts 2.
+    * *
+    *
+     */
     @FXML
     public void addAssociatedPart() {
         //Grab a part
         Part part = partTableView.getSelectionModel().getSelectedItem();
 
+        //add the to observable list
+        holdParts.add(part);
+        //setItems to the other table. Initialize through initialize method.
+    }
 
-        //add the part into the list via add associated part from product class
+    @FXML
+    public void saveProduct(ActionEvent event) throws IOException {
 
-        //show list via get all
+        int productId = Integer.parseInt(productIdField.getText());
+        String productName = productNameField.getText();
+        int productInv = Integer.parseInt(productStockField.getText());
+        double productPrice = Double.parseDouble(productPriceField.getText());
+        int minProduct = Integer.parseInt(minProductField.getText());
+        int maxProduct = Integer.parseInt(maxProductField.getText());
 
+        for(Part associated : holdParts) {
+            product.addAssociatedPart(associated);
+        }
+
+        Inventory.addProduct(new Product(productId, productName, productPrice, productInv, minProduct, maxProduct));
+        //turn this into a method to reduce redundant code
+        Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
+        Scene returnHomeScene = new Scene(returnHome);
+        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+        window.setScene(returnHomeScene);
+        window.show();
     }
 
 
@@ -62,5 +113,12 @@ public class ProductController implements Initializable {
         partNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
         partInvColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
         partPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+
+        associatedTableView.setItems(holdParts);
+        associatedIdColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
+        associatedNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
+        associatedInvColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
+        associatedPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+
     }
 }

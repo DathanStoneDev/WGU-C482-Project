@@ -23,6 +23,10 @@ public class Product {
         this.minProduct = minProduct;
         this.maxProduct = maxProduct;
     }
+    //default constructor
+    public Product() {
+
+    }
 
     public int getProductId() {
         return productId;
