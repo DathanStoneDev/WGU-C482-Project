@@ -23,7 +23,7 @@ public class Inventory {
         allProducts.add(newProduct);
     }
     //looks up part by id
-    public static Part lookupPart(int id) {
+    public static Part lookupPartbyId(int id) {
         for(Part p : allParts) {
             if(p.getId() == id) {
                 return p;
@@ -33,7 +33,7 @@ public class Inventory {
     //looks up part by name
     public static Part lookupPart(String name) {
         for(Part n : allParts) {
-            if(n.getName() == name) {
+            if(n.getName().contains(name)) {
                 return n;
             }
         } return null;
@@ -41,13 +41,13 @@ public class Inventory {
     //looks up product by name
     public static Product lookupProduct(String name) {
         for(Product n : allProducts) {
-            if(n.getProductName() == name) {
+            if(n.getProductName().contains(name)) {
                 return n;
             }
         } return null;
     }
     //looks up product by id
-    public static Product lookupProduct(int id) {
+    public static Product lookupProductById(int id) {
         for(Product p : allProducts) {
             if(p.getProductId() == id) {
                 return p;
@@ -56,13 +56,20 @@ public class Inventory {
     }
 
     //updates the part
-    public static void updatePart(int index, Product newPart) {
-
+    public static void updatePart(Part newPart) {
+        for(int i = 0; i < allParts.size(); i++) {
+            if(allParts.get(i).getId() == newPart.getId()) {
+               allParts.set(i, newPart);
+            }
+        }
     }
-
     //updates the product
-    public static void updateProduct(int index, Product newProduct) {
-
+    public static void updateProduct(Product newProduct) {
+        for(int i = 0; i < allProducts.size(); i++) {
+            if(allProducts.get(i).getProductId() == newProduct.getProductId()) {
+                allProducts.set(i, newProduct);
+            }
+        }
     }
     //deletes a part
     public static boolean deletePart(Part selectedPart) {

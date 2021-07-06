@@ -12,13 +12,13 @@ import wgu.stone.model.InHousePart;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.OutsourcedPart;
 import wgu.stone.model.Part;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PartController implements Initializable {
-    //form fields
+public class ModifyPartController implements Initializable {
+
+    private Part selectedPart;
     @FXML
     private TextField partIdField;
     @FXML
@@ -34,7 +34,6 @@ public class PartController implements Initializable {
     @FXML
     private TextField partMachineIdField;
 
-    //buttons
     @FXML
     private RadioButton inHousePartButton;
     @FXML
@@ -50,6 +49,7 @@ public class PartController implements Initializable {
 
     boolean isInHouse;
 
+
     @FXML
     private void buttonInHouse(){
         labelChange.setText("Machine ID");
@@ -62,11 +62,8 @@ public class PartController implements Initializable {
         isInHouse = false;
 
     }
-
-    //change this name to saveNew Part
     @FXML
-    public void savePart(ActionEvent event) throws IOException{
-
+    public void saveModifiedPart (ActionEvent event) throws IOException {
         int id = Integer.parseInt(partIdField.getText());
         String name = partNameField.getText();
         int inv = Integer.parseInt(partInvField.getText());
@@ -75,10 +72,32 @@ public class PartController implements Initializable {
         int max = Integer.parseInt(partMaxField.getText());
         String machineId = (partMachineIdField.getText());
 
-        if(isInHouse){
-            Inventory.addPart(new InHousePart(id, name, price, inv, min, max, Integer.parseInt(machineId)));
+
+        if(isInHouse) {
+
+            InHousePart modifiedInHouse = new InHousePart(id, name, price, inv, min, max, Integer.parseInt(machineId));
+            modifiedInHouse.setId(id);
+            modifiedInHouse.setName(name);
+            modifiedInHouse.setPrice(price);
+            modifiedInHouse.setStock(inv);
+            modifiedInHouse.setMin(min);
+            modifiedInHouse.setMax(max);
+            modifiedInHouse.setMachineId(Integer.parseInt(machineId));
+
+            //need the updatePart method from inventory to finalize.
+            Inventory.updatePart(modifiedInHouse);
         } else {
-            Inventory.addPart(new OutsourcedPart(id, name, price, inv, min, max, machineId));
+            OutsourcedPart modifiedOutsource = new OutsourcedPart(id, name, price, inv, min, max, machineId);
+            modifiedOutsource.setId(id);
+            modifiedOutsource.setName(name);
+            modifiedOutsource.setPrice(price);
+            modifiedOutsource.setStock(inv);
+            modifiedOutsource.setMin(min);
+            modifiedOutsource.setMax(max);
+            modifiedOutsource.setCompanyName(machineId);
+
+            Inventory.updatePart(modifiedOutsource);
+            System.out.println(modifiedOutsource.getCompanyName());
         }
 
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
@@ -86,6 +105,31 @@ public class PartController implements Initializable {
         Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
         window.setScene(returnHomeScene);
         window.show();
+    }
+
+    public void initData(Part part) {
+        selectedPart = part;
+        partIdField.setText(Integer.toString(selectedPart.getId()));
+        partNameField.setText((selectedPart.getName()));
+        partInvField.setText(Integer.toString(selectedPart.getStock()));
+        partPriceField.setText(Double.toString(selectedPart.getPrice()));
+        partMaxField.setText(Integer.toString(selectedPart.getMax()));
+        partMinField.setText(Integer.toString(selectedPart.getMin()));
+
+        if(part instanceof InHousePart) {
+            InHousePart inHouse = (InHousePart) part;
+            partMachineIdField.setText(Integer.toString(inHouse.getMachineId()));
+            labelChange.setText("Machine ID");
+            isInHouse = true;
+            inHousePartButton.setSelected(true);
+        }
+        else if (part instanceof OutsourcedPart) {
+            OutsourcedPart outSource = (OutsourcedPart) part;
+            partMachineIdField.setText((outSource.getCompanyName()));
+            labelChange.setText("Company");
+            isInHouse = false;
+            outsourcePartButton.setSelected(true);
+        }
     }
 
     @FXML
@@ -102,6 +146,5 @@ public class PartController implements Initializable {
         addPartGroup = new ToggleGroup();
         inHousePartButton.setToggleGroup(addPartGroup);
         outsourcePartButton.setToggleGroup(addPartGroup);
-        inHousePartButton.setSelected(true);
     }
 }

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -29,6 +30,8 @@
             <Button fx:id="modifyPart" layoutX="319.0" layoutY="236.0" mnemonicParsing="false" onAction="#modifyPartButtonSelected" text="Modify" />
             <Button fx:id="deleteButton" layoutX="389.0" layoutY="236.0" mnemonicParsing="false" onAction="#deleteButtonPressed" text="Delete" />
             <Label layoutX="8.0" text="Parts" />
+            <TextField fx:id="partSearchField" layoutX="310.0" layoutY="4.0" onInputMethodTextChanged="#searchParts" />
+            <Button fx:id="searchButton" layoutX="258.0" layoutY="2.0" mnemonicParsing="false" onAction="#searchParts" text="search" />
          </children>
       </Pane>
       <Pane layoutX="466.0" layoutY="220.0" prefHeight="300.0" prefWidth="455.0">
@@ -45,6 +48,8 @@
             <Button fx:id="modifyProduct" layoutX="319.0" layoutY="236.0" mnemonicParsing="false" onAction="#modifyProductButtonSelected" text="Modify" />
             <Button fx:id="deleteProduct" layoutX="389.0" layoutY="236.0" mnemonicParsing="false" onAction="#deleteButtonPressedProduct" text="Delete" />
             <Label layoutX="14.0" layoutY="6.0" text="Products" />
+            <TextField fx:id="productSearchField" layoutX="298.0" layoutY="11.0" onInputMethodTextChanged="#searchParts" />
+            <Button fx:id="searchButton1" layoutX="252.0" layoutY="11.0" mnemonicParsing="false" onAction="#searchProducts" text="search" />
          </children>
       </Pane>
       <Button fx:id="exitAppButton" layoutX="865.0" layoutY="558.0" mnemonicParsing="false" onAction="#exitApplication" text="Exit" />

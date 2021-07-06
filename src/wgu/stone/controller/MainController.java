@@ -30,6 +30,8 @@ public class MainController implements Initializable {
     private TableColumn<Part, Integer> partInvColumn;
     @FXML
     private TableColumn<Part, Double> partPriceColumn;
+    @FXML
+    private TextField partSearchField;
 
     //product Tableview properties
     @FXML
@@ -42,6 +44,8 @@ public class MainController implements Initializable {
     private TableColumn<Product, Integer> productInvColumn;
     @FXML
     private TableColumn<Product, Double> productPriceColumn;
+    @FXML
+    private TextField productSearchField;
 
     //buttons
     @FXML
@@ -61,17 +65,19 @@ public class MainController implements Initializable {
     //When the "Modify" button is selected on the parts tableview, this goes to the scene AddPartInHouse.
     public void modifyPartButtonSelected(ActionEvent event) throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/wgu/stone/view/ModifyPart.fxml"));
-        Parent mainWindow;
-        mainWindow = loader.load();
-        Scene modifyPartInHouseScene = new Scene(mainWindow);
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(modifyPartInHouseScene);
-        window.show();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/wgu/stone/view/ModifyPart.fxml"));
+        Parent modifyPart = loader.load();
 
-        PartController controller = loader.getController();
-        Part selectedPart = partTableView.getSelectionModel().getSelectedItem();
-        controller.setPartInModifyPage(selectedPart);
+
+        Scene modifyPartScene = new Scene(modifyPart);
+        //need to access controller to call the method
+        ModifyPartController controller = loader.getController();
+        controller.initData(partTableView.getSelectionModel().getSelectedItem());
+
+        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        window.setScene(modifyPartScene);
+        window.show();
     }
 
     //When the "add" button is selected on the products tableview, this goes to the scene AddProductForm
@@ -85,8 +91,16 @@ public class MainController implements Initializable {
 
     //When the "Modify" button is selected on the products tableview, this goes to the scene ModifyProductForm.
     public void modifyProductButtonSelected(ActionEvent event) throws IOException {
-        Parent modifyProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/ModifyProduct.fxml"));
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/wgu/stone/view/ModifyProduct.fxml"));
+        Parent modifyProduct = loader.load();
+
+
         Scene modifyProductScene = new Scene(modifyProduct);
+        //need to access controller to call the method
+        ModifyProductController controller = loader.getController();
+        controller.initData(productTableView.getSelectionModel().getSelectedItem());
+
         Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
         window.setScene(modifyProductScene);
         window.show();
@@ -110,6 +124,34 @@ public class MainController implements Initializable {
         Product product = productTableView.getSelectionModel().getSelectedItem();
         Inventory.deleteProduct(product);
     }
+    //Accounts for ids and names. Capitalization matters so possibly change that.
+    //only highlights first  item found.
+    @FXML
+    public void searchParts() {
+
+        String q = partSearchField.getText();
+        try {
+            int id = Integer.parseInt(q);
+            partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
+        } catch (NumberFormatException e) {
+            partTableView.getSelectionModel().select(Inventory.lookupPart(q));
+        }
+
+
+    }
+    @FXML
+    public void searchProducts() {
+
+        String q = productSearchField.getText();
+        try {
+            int id = Integer.parseInt(q);
+            productTableView.getSelectionModel().select(Inventory.lookupProductById(id));
+        } catch (NumberFormatException e) {
+            productTableView.getSelectionModel().select(Inventory.lookupProduct(q));
+        }
+    }
+
+
 
     //Initializes the controller
     @Override

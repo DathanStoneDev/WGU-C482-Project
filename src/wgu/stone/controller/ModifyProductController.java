@@ -17,11 +17,25 @@ import javafx.stage.Stage;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.Part;
 import wgu.stone.model.Product;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ProductController implements Initializable {
+public class ModifyProductController implements Initializable {
+
+    @FXML
+    private TextField productIdField;
+    @FXML
+    private TextField productNameField;
+    @FXML
+    private TextField productPriceField;
+    @FXML
+    private TextField productStockField;
+    @FXML
+    private TextField minProductField;
+    @FXML
+    private TextField maxProductField;
 
     @FXML
     private TableView<Part> partTableView;
@@ -47,47 +61,12 @@ public class ProductController implements Initializable {
     @FXML
     private TableColumn<Part, Double> associatedPriceColumn;
 
-    @FXML
-    private TextField productIdField;
-    @FXML
-    private TextField productNameField;
-    @FXML
-    private TextField productPriceField;
-    @FXML
-    private TextField productStockField;
-    @FXML
-    private TextField minProductField;
-    @FXML
-    private TextField maxProductField;
-
-    Product product = new Product();
+    private Product selectedProduct;
     ObservableList<Part> holdParts = FXCollections.observableArrayList();
 
 
-
-    /*
-    * Need to do a check. 1. not having duplicate added parts 2.
-    * *
-    *
-     */
     @FXML
-    public void addAssociatedPart() {
-        //Grab a part
-        Part part = partTableView.getSelectionModel().getSelectedItem();
-
-        //add the to observable list
-        holdParts.add(part);
-        //setItems to the other table. Initialize through initialize method.
-    }
-
-    @FXML
-    public void removeAssociatedPart() {
-        Part part = associatedTableView.getSelectionModel().getSelectedItem();
-        holdParts.remove(part);
-    }
-
-    @FXML
-    public void saveProduct(ActionEvent event) throws IOException {
+    public void saveModifiedProduct(ActionEvent event) throws IOException {
 
         int productId = Integer.parseInt(productIdField.getText());
         String productName = productNameField.getText();
@@ -96,7 +75,7 @@ public class ProductController implements Initializable {
         int minProduct = Integer.parseInt(minProductField.getText());
         int maxProduct = Integer.parseInt(maxProductField.getText());
 
-
+        Product product = new Product();
         product.setProductId(productId);
         product.setProductName(productName);
         product.setProductPrice(productPrice);
@@ -107,14 +86,58 @@ public class ProductController implements Initializable {
         for(Part associated : holdParts) {
             product.addAssociatedPart(associated);
         }
-        Inventory.addProduct(product);
+        Inventory.updateProduct(product);
 
-        //turn this into a method to reduce redundant code
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
         Scene returnHomeScene = new Scene(returnHome);
         Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
         window.setScene(returnHomeScene);
         window.show();
+    }
+
+    public void initData(Product product) {
+        selectedProduct = product;
+        productIdField.setText(Integer.toString(selectedProduct.getProductId()));
+        productNameField.setText((selectedProduct.getProductName()));
+        productStockField.setText(Integer.toString(selectedProduct.getProductStock()));
+        productPriceField.setText(Double.toString(selectedProduct.getProductPrice()));
+        minProductField.setText(Integer.toString(selectedProduct.getMinProduct()));
+        maxProductField.setText(Integer.toString(selectedProduct.getMaxProduct()));
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        partTableView.setItems(Inventory.getAllParts());
+        partIdColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
+        partNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
+        partInvColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
+        partPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+
+        associatedTableView.setItems(holdParts);
+        associatedIdColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
+        associatedNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
+        associatedInvColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
+        associatedPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
+
+
+    }
+
+    @FXML
+    public void addAssociatedPart() {
+        //Grab a part
+        Part part = partTableView.getSelectionModel().getSelectedItem();
+
+        //add the to observable list
+        holdParts.add(part);
+        //setItems to the other table. Initialize through initialize method.
+    }
+
+
+    @FXML
+    public void removeAssociatedPart() {
+        Part part = associatedTableView.getSelectionModel().getSelectedItem();
+        holdParts.remove(part);
     }
 
     @FXML
@@ -137,25 +160,5 @@ public class ProductController implements Initializable {
         } catch (NumberFormatException e) {
             partTableView.getSelectionModel().select(Inventory.lookupPart(q));
         }
-    }
-
-
-
-
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-
-        partTableView.setItems(Inventory.getAllParts());
-        partIdColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
-        partNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
-        partInvColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
-        partPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
-
-        associatedTableView.setItems(holdParts);
-        associatedIdColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
-        associatedNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
-        associatedInvColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
-        associatedPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
-
     }
 }
