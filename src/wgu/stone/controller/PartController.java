@@ -13,6 +13,7 @@ import wgu.stone.model.Inventory;
 import wgu.stone.model.OutsourcedPart;
 import wgu.stone.model.Part;
 
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -67,13 +68,20 @@ public class PartController implements Initializable {
     @FXML
     public void savePart(ActionEvent event) throws IOException{
 
-        int id = Integer.parseInt(partIdField.getText());
+       // int id = Integer.parseInt(partIdField.getText());
         String name = partNameField.getText();
         int inv = Integer.parseInt(partInvField.getText());
         double price = Double.parseDouble(partPriceField.getText());
         int min = Integer.parseInt(partMinField.getText());
         int max = Integer.parseInt(partMaxField.getText());
         String machineId = (partMachineIdField.getText());
+
+        int id = 0;
+        for(Part i : Inventory.getAllParts()) {
+            if(i.getId() >= id) {
+                id = i.getId() + 1;
+            }
+        }
 
         if(isInHouse){
             Inventory.addPart(new InHousePart(id, name, price, inv, min, max, Integer.parseInt(machineId)));
@@ -103,5 +111,7 @@ public class PartController implements Initializable {
         inHousePartButton.setToggleGroup(addPartGroup);
         outsourcePartButton.setToggleGroup(addPartGroup);
         inHousePartButton.setSelected(true);
+        partIdField.setText("Automatically Generated");
+        partIdField.setDisable(true);
     }
 }

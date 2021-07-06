@@ -120,6 +120,8 @@ public class ModifyProductController implements Initializable {
         associatedInvColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
         associatedPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
 
+        productIdField.setDisable(true);
+
 
     }
 

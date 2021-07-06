@@ -146,5 +146,6 @@ public class ModifyPartController implements Initializable {
         addPartGroup = new ToggleGroup();
         inHousePartButton.setToggleGroup(addPartGroup);
         outsourcePartButton.setToggleGroup(addPartGroup);
+        partIdField.setDisable(true);
     }
 }

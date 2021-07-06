@@ -89,12 +89,19 @@ public class ProductController implements Initializable {
     @FXML
     public void saveProduct(ActionEvent event) throws IOException {
 
-        int productId = Integer.parseInt(productIdField.getText());
+        //int productId = Integer.parseInt(productIdField.getText());
         String productName = productNameField.getText();
         int productInv = Integer.parseInt(productStockField.getText());
         double productPrice = Double.parseDouble(productPriceField.getText());
         int minProduct = Integer.parseInt(minProductField.getText());
         int maxProduct = Integer.parseInt(maxProductField.getText());
+
+        int productId = 0;
+        for(Product i : Inventory.getAllProducts()) {
+            if(i.getProductId() >= productId) {
+                productId = i.getProductId() + 1;
+            }
+        }
 
 
         product.setProductId(productId);
@@ -157,5 +164,7 @@ public class ProductController implements Initializable {
         associatedInvColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("stock"));
         associatedPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
 
+        productIdField.setDisable(true);
+        productIdField.setText("Automatically Generated");
     }
 }
