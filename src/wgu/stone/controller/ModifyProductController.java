@@ -62,7 +62,7 @@ public class ModifyProductController implements Initializable {
     private TableColumn<Part, Double> associatedPriceColumn;
 
     private Product selectedProduct;
-    ObservableList<Part> holdParts = FXCollections.observableArrayList();
+    private ObservableList<Part> holdParts = FXCollections.observableArrayList();
 
 
 
@@ -87,6 +87,7 @@ public class ModifyProductController implements Initializable {
             product.addAssociatedPart(associated);
         }
         Inventory.updateProduct(product);
+        System.out.println(product.getAssociatedParts());
 
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
         Scene returnHomeScene = new Scene(returnHome);
@@ -103,11 +104,17 @@ public class ModifyProductController implements Initializable {
         productPriceField.setText(Double.toString(selectedProduct.getProductPrice()));
         minProductField.setText(Integer.toString(selectedProduct.getMinProduct()));
         maxProductField.setText(Integer.toString(selectedProduct.getMaxProduct()));
-        associatedTableView.setItems(product.getAssociatedParts());
+        //When the modify button is hit, this initializes the product info. We want to holdParts temp list to be populated
+        //by the products associatedParts.
+        holdParts = product.getAssociatedParts();
+
+        //then show the parts on the bottom tableview.
+        associatedTableView.setItems(holdParts);
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         partTableView.setItems(Inventory.getAllParts());
         partIdColumn.setCellValueFactory(new PropertyValueFactory<Part, Integer>("id"));
         partNameColumn.setCellValueFactory(new PropertyValueFactory<Part, String>("name"));
@@ -137,10 +144,13 @@ public class ModifyProductController implements Initializable {
     }
 
 
-
+    //bug where button has to be clicked twice to remove
     public void removeAssociatedPart() {
         Part part = associatedTableView.getSelectionModel().getSelectedItem();
         holdParts.remove(part);
+
+
+
     }
 
 

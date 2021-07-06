@@ -44,6 +44,8 @@ public class Main extends Application {
         Inventory.addProduct(product3);
         Inventory.addProduct(product4);
         Inventory.addProduct(product5);
+        product1.addAssociatedPart(part1);
+
 
         launch(args);
     }
