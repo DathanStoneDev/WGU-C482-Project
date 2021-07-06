@@ -97,7 +97,7 @@ public class ModifyPartController implements Initializable {
             modifiedOutsource.setCompanyName(machineId);
 
             Inventory.updatePart(modifiedOutsource);
-            System.out.println(modifiedOutsource.getCompanyName());
+
         }
 
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));

@@ -65,7 +65,7 @@ public class ModifyProductController implements Initializable {
     ObservableList<Part> holdParts = FXCollections.observableArrayList();
 
 
-    @FXML
+
     public void saveModifiedProduct(ActionEvent event) throws IOException {
 
         int productId = Integer.parseInt(productIdField.getText());
@@ -103,7 +103,7 @@ public class ModifyProductController implements Initializable {
         productPriceField.setText(Double.toString(selectedProduct.getProductPrice()));
         minProductField.setText(Integer.toString(selectedProduct.getMinProduct()));
         maxProductField.setText(Integer.toString(selectedProduct.getMaxProduct()));
-
+        associatedTableView.setItems(product.getAssociatedParts());
     }
 
     @Override
@@ -123,24 +123,25 @@ public class ModifyProductController implements Initializable {
 
     }
 
-    @FXML
+
     public void addAssociatedPart() {
         //Grab a part
         Part part = partTableView.getSelectionModel().getSelectedItem();
 
         //add the to observable list
         holdParts.add(part);
-        //setItems to the other table. Initialize through initialize method.
+        //update the view.
+        associatedTableView.setItems(holdParts);
     }
 
 
-    @FXML
+
     public void removeAssociatedPart() {
         Part part = associatedTableView.getSelectionModel().getSelectedItem();
         holdParts.remove(part);
     }
 
-    @FXML
+
     public void cancelButton(ActionEvent event) throws IOException {
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
         Scene returnHomeScene = new Scene(returnHome);
@@ -150,7 +151,7 @@ public class ModifyProductController implements Initializable {
 
     }
 
-    @FXML
+
     public void searchParts() {
 
         String q = partSearchField.getText();
