@@ -12,42 +12,29 @@ import wgu.stone.model.InHousePart;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.OutsourcedPart;
 import wgu.stone.model.Part;
-
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class PartController implements Initializable {
-    //form fields
-    @FXML
-    private TextField partIdField;
-    @FXML
-    private TextField partNameField;
-    @FXML
-    private TextField partInvField;
-    @FXML
-    private TextField partPriceField;
-    @FXML
-    private TextField partMaxField;
-    @FXML
-    private TextField partMinField;
-    @FXML
-    private TextField partMachineIdField;
+    //Part Text Fields
+    @FXML private TextField partIdField;
+    @FXML private TextField partNameField;
+    @FXML private TextField partInvField;
+    @FXML private TextField partPriceField;
+    @FXML private TextField partMaxField;
+    @FXML private TextField partMinField;
+    @FXML private TextField partMachineIdField;
 
-    //buttons
-    @FXML
-    private RadioButton inHousePartButton;
-    @FXML
-    private RadioButton outsourcePartButton;
+    //Radio Buttons
+    @FXML private RadioButton inHousePartButton;
+    @FXML private RadioButton outsourcePartButton;
 
 
     //toggle group
-    @FXML
-    private ToggleGroup addPartGroup;
+    @FXML private ToggleGroup addPartGroup;
 
-    @FXML
-    private Label labelChange;
+    @FXML private Label labelChange;
 
     boolean isInHouse;
 

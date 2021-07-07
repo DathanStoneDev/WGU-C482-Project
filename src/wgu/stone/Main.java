@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import wgu.stone.controller.UtilityClass;
 import wgu.stone.model.InHousePart;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.Part;
@@ -45,7 +46,6 @@ public class Main extends Application {
         Inventory.addProduct(product4);
         Inventory.addProduct(product5);
         product1.addAssociatedPart(part1);
-
 
         launch(args);
     }

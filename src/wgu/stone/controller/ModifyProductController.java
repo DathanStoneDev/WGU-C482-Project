@@ -168,9 +168,10 @@ public class ModifyProductController implements Initializable {
         String q = partSearchField.getText();
         try {
             int id = Integer.parseInt(q);
-            partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
+            partTableView.getSelectionModel().select((Inventory.lookupPartbyId(id)));
         } catch (NumberFormatException e) {
-            partTableView.getSelectionModel().select(Inventory.lookupPart(q));
+            partTableView.setItems(Inventory.lookupPart(q));
         }
+        partSearchField.clear();
     }
 }

@@ -26,25 +26,27 @@ public class Inventory {
     public static Part lookupPartbyId(int id) {
         for(Part p : allParts) {
             if(p.getId() == id) {
-                return p;
+               return p;
             }
         } return null;
     }
     //looks up part by name
-    public static Part lookupPart(String name) {
+    public static ObservableList<Part> lookupPart(String name) {
+        ObservableList searchedPart = FXCollections.observableArrayList();
         for(Part n : allParts) {
             if(n.getName().contains(name)) {
-                return n;
+                searchedPart.add(n);
             }
-        } return null;
+        } return searchedPart;
     }
     //looks up product by name
-    public static Product lookupProduct(String name) {
+    public static ObservableList<Product> lookupProduct(String name) {
+        ObservableList searchedProductByName = FXCollections.observableArrayList();
         for(Product n : allProducts) {
             if(n.getProductName().contains(name)) {
-                return n;
+                searchedProductByName.add(n);
             }
-        } return null;
+        } return searchedProductByName;
     }
     //looks up product by id
     public static Product lookupProductById(int id) {

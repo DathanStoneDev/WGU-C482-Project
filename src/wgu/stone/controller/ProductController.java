@@ -23,86 +23,65 @@ import java.util.ResourceBundle;
 
 public class ProductController implements Initializable {
 
-    @FXML
-    private TableView<Part> partTableView;
-    @FXML
-    private TableColumn<Part, Integer> partIdColumn;
-    @FXML
-    private TableColumn<Part, String> partNameColumn;
-    @FXML
-    private TableColumn<Part, Integer> partInvColumn;
-    @FXML
-    private TableColumn<Part, Double> partPriceColumn;
-    @FXML
-    private TextField partSearchField;
+    //Part tableview fields
+    @FXML private TableView<Part> partTableView;
+    @FXML private TableColumn<Part, Integer> partIdColumn;
+    @FXML private TableColumn<Part, String> partNameColumn;
+    @FXML private TableColumn<Part, Integer> partInvColumn;
+    @FXML private TableColumn<Part, Double> partPriceColumn;
+    @FXML private TextField partSearchField;
 
-    @FXML
-    private TableView<Part> associatedTableView;
-    @FXML
-    private TableColumn<Part, Integer> associatedIdColumn;
-    @FXML
-    private TableColumn<Part, String> associatedNameColumn;
-    @FXML
-    private TableColumn<Part, Integer> associatedInvColumn;
-    @FXML
-    private TableColumn<Part, Double> associatedPriceColumn;
+    //Associated Parts tableview fields
+    @FXML private TableView<Part> associatedTableView;
+    @FXML private TableColumn<Part, Integer> associatedIdColumn;
+    @FXML private TableColumn<Part, String> associatedNameColumn;
+    @FXML private TableColumn<Part, Integer> associatedInvColumn;
+    @FXML private TableColumn<Part, Double> associatedPriceColumn;
 
-    @FXML
-    private TextField productIdField;
-    @FXML
-    private TextField productNameField;
-    @FXML
-    private TextField productPriceField;
-    @FXML
-    private TextField productStockField;
-    @FXML
-    private TextField minProductField;
-    @FXML
-    private TextField maxProductField;
+    //Product Text fields
+    @FXML private TextField productIdField;
+    @FXML private TextField productNameField;
+    @FXML private TextField productPriceField;
+    @FXML private TextField productStockField;
+    @FXML private TextField minProductField;
+    @FXML private TextField maxProductField;
 
     Product product = new Product();
     ObservableList<Part> holdParts = FXCollections.observableArrayList();
 
-
-
-    /*
-    * Need to do a check. 1. not having duplicate added parts 2.
-    * *
-    *
-     */
     @FXML
     public void addAssociatedPart() {
         //Grab a part
         Part part = partTableView.getSelectionModel().getSelectedItem();
 
-        //add the to observable list
+        //add the to temporary observable list
         holdParts.add(part);
-        //setItems to the other table. Initialize through initialize method.
     }
 
+    //removes part from temporary observable list
     @FXML
     public void removeAssociatedPart() {
         Part part = associatedTableView.getSelectionModel().getSelectedItem();
         holdParts.remove(part);
     }
 
+    //Saves a product
     @FXML
     public void saveProduct(ActionEvent event) throws IOException {
 
-        //int productId = Integer.parseInt(productIdField.getText());
         String productName = productNameField.getText();
         int productInv = Integer.parseInt(productStockField.getText());
         double productPrice = Double.parseDouble(productPriceField.getText());
         int minProduct = Integer.parseInt(minProductField.getText());
         int maxProduct = Integer.parseInt(maxProductField.getText());
 
+        //Automatic id generator
         int productId = 0;
         for(Product i : Inventory.getAllProducts()) {
             if(i.getProductId() >= productId) {
                 productId = i.getProductId() + 1;
             }
         }
-
 
         product.setProductId(productId);
         product.setProductName(productName);
@@ -111,12 +90,14 @@ public class ProductController implements Initializable {
         product.setMinProduct(minProduct);
         product.setMaxProduct(maxProduct);
 
+        // adds parts from holdParts list to the product associatedParts list
         for(Part associated : holdParts) {
             product.addAssociatedPart(associated);
         }
+
         Inventory.addProduct(product);
 
-        //turn this into a method to reduce redundant code
+
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
         Scene returnHomeScene = new Scene(returnHome);
         Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
@@ -124,6 +105,7 @@ public class ProductController implements Initializable {
         window.show();
     }
 
+    //cancel button that goes back to the main screen
     @FXML
     public void cancelButton(ActionEvent event) throws IOException {
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
@@ -140,10 +122,11 @@ public class ProductController implements Initializable {
         String q = partSearchField.getText();
         try {
             int id = Integer.parseInt(q);
-            partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
+            partTableView.getSelectionModel().select((Inventory.lookupPartbyId(id)));
         } catch (NumberFormatException e) {
-            partTableView.getSelectionModel().select(Inventory.lookupPart(q));
+            partTableView.setItems(Inventory.lookupPart(q));
         }
+        partSearchField.clear();
     }
 
 

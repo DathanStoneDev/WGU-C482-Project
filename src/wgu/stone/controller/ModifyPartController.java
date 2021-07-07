@@ -18,36 +18,34 @@ import java.util.ResourceBundle;
 
 public class ModifyPartController implements Initializable {
 
-    private Part selectedPart;
-    @FXML
-    private TextField partIdField;
-    @FXML
-    private TextField partNameField;
-    @FXML
-    private TextField partInvField;
-    @FXML
-    private TextField partPriceField;
-    @FXML
-    private TextField partMaxField;
-    @FXML
-    private TextField partMinField;
-    @FXML
-    private TextField partMachineIdField;
+    //Part Text Fields
+    @FXML private TextField partIdField;
+    @FXML private TextField partNameField;
+    @FXML private TextField partInvField;
+    @FXML private TextField partPriceField;
+    @FXML private TextField partMaxField;
+    @FXML private TextField partMinField;
+    @FXML private TextField partMachineIdField;
 
-    @FXML
-    private RadioButton inHousePartButton;
-    @FXML
-    private RadioButton outsourcePartButton;
+    //Radio buttons
+    @FXML private RadioButton inHousePartButton;
+    @FXML private RadioButton outsourcePartButton;
 
-
-    //toggle group
+    //Toggle Group that the radio buttons belong to
     @FXML
     private ToggleGroup addPartGroup;
 
     @FXML
+    private Button cancelButton;
+
+    //label that changes from "Machine ID" to "Company Name" based on radio button selection.
+    @FXML
     private Label labelChange;
 
+
     boolean isInHouse;
+
+    private Part selectedPart;
 
 
     @FXML
@@ -107,6 +105,7 @@ public class ModifyPartController implements Initializable {
         window.show();
     }
 
+    //Data sent from the Main Controller when the Modify Button for parts is selected.
     public void initData(Part part) {
         selectedPart = part;
         partIdField.setText(Integer.toString(selectedPart.getId()));
@@ -131,12 +130,8 @@ public class ModifyPartController implements Initializable {
     }
 
     @FXML
-    public void cancelButton(ActionEvent event) throws IOException {
-        Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-        Scene returnHomeScene = new Scene(returnHome);
-        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        window.setScene(returnHomeScene);
-        window.show();
+    public void cancelButton() throws IOException {
+        UtilityClass.cancelBackToMainScreen(cancelButton);
     }
 
     @Override

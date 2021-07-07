@@ -18,36 +18,23 @@ import java.util.ResourceBundle;
 public class MainController implements Initializable {
 
 
-
     //Parts Tableview properties.
-    @FXML
-    private TableView<Part> partTableView;
-    @FXML
-    private TableColumn<Part, Integer> partIdColumn;
-    @FXML
-    private TableColumn<Part, String> partNameColumn;
-    @FXML
-    private TableColumn<Part, Integer> partInvColumn;
-    @FXML
-    private TableColumn<Part, Double> partPriceColumn;
-    @FXML
-    private TextField partSearchField;
+    @FXML private TableView<Part> partTableView;
+    @FXML private TableColumn<Part, Integer> partIdColumn;
+    @FXML private TableColumn<Part, String> partNameColumn;
+    @FXML private TableColumn<Part, Integer> partInvColumn;
+    @FXML private TableColumn<Part, Double> partPriceColumn;
+    @FXML private TextField partSearchField;
 
-    //product Tableview properties
-    @FXML
-    private TableView<Product> productTableView;
-    @FXML
-    private TableColumn<Product, Integer> productIdColumn;
-    @FXML
-    private TableColumn<Product, String> productNameColumn;
-    @FXML
-    private TableColumn<Product, Integer> productInvColumn;
-    @FXML
-    private TableColumn<Product, Double> productPriceColumn;
-    @FXML
-    private TextField productSearchField;
+    //Product Tableview properties
+    @FXML private TableView<Product> productTableView;
+    @FXML private TableColumn<Product, Integer> productIdColumn;
+    @FXML private TableColumn<Product, String> productNameColumn;
+    @FXML private TableColumn<Product, Integer> productInvColumn;
+    @FXML private TableColumn<Product, Double> productPriceColumn;
+    @FXML private TextField productSearchField;
 
-    //buttons
+    //Buttons
     @FXML
     private Button exitAppButton;
 
@@ -134,8 +121,10 @@ public class MainController implements Initializable {
             int id = Integer.parseInt(q);
             partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
         } catch (NumberFormatException e) {
-            partTableView.getSelectionModel().select(Inventory.lookupPart(q));
+            partTableView.setItems(Inventory.lookupPart(q));
         }
+        partSearchField.clear();
+
 
 
     }
@@ -145,10 +134,13 @@ public class MainController implements Initializable {
         String q = productSearchField.getText();
         try {
             int id = Integer.parseInt(q);
-            productTableView.getSelectionModel().select(Inventory.lookupProductById(id));
-        } catch (NumberFormatException e) {
-            productTableView.getSelectionModel().select(Inventory.lookupProduct(q));
+            productTableView.getSelectionModel().select((Inventory.lookupProductById(id)));
+
+        } catch (NumberFormatException n) {
+            productTableView.setItems(Inventory.lookupProduct(q));
         }
+        productSearchField.clear();
+
     }
 
 
