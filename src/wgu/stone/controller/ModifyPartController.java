@@ -120,14 +120,12 @@ public class ModifyPartController implements Initializable {
             InHousePart inHouse = (InHousePart) part;
             partMachineIdField.setText(Integer.toString(inHouse.getMachineId()));
             labelChange.setText("Machine ID");
-            isInHouse = true;
             inHousePartButton.setSelected(true);
         }
-        else if (part instanceof OutsourcedPart) {
+        else  if (part instanceof OutsourcedPart) {
             OutsourcedPart outSource = (OutsourcedPart) part;
             partMachineIdField.setText((outSource.getCompanyName()));
             labelChange.setText("Company");
-            isInHouse = false;
             outsourcePartButton.setSelected(true);
         }
     }

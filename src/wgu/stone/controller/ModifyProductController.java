@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.Part;
 import wgu.stone.model.Product;
-
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;

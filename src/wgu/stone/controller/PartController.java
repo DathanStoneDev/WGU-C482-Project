@@ -68,7 +68,7 @@ public class PartController implements Initializable {
     @FXML
     public void savePart(ActionEvent event) throws IOException{
 
-       // int id = Integer.parseInt(partIdField.getText());
+
         String name = partNameField.getText();
         int inv = Integer.parseInt(partInvField.getText());
         double price = Double.parseDouble(partPriceField.getText());
