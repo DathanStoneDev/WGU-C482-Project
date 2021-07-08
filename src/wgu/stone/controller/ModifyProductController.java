@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import wgu.stone.model.Inventory;
@@ -23,42 +20,28 @@ import java.util.ResourceBundle;
 
 public class ModifyProductController implements Initializable {
 
-    @FXML
-    private TextField productIdField;
-    @FXML
-    private TextField productNameField;
-    @FXML
-    private TextField productPriceField;
-    @FXML
-    private TextField productStockField;
-    @FXML
-    private TextField minProductField;
-    @FXML
-    private TextField maxProductField;
+    @FXML private TextField productIdField;
+    @FXML private TextField productNameField;
+    @FXML private TextField productPriceField;
+    @FXML private TextField productStockField;
+    @FXML private TextField minProductField;
+    @FXML private TextField maxProductField;
 
-    @FXML
-    private TableView<Part> partTableView;
-    @FXML
-    private TableColumn<Part, Integer> partIdColumn;
-    @FXML
-    private TableColumn<Part, String> partNameColumn;
-    @FXML
-    private TableColumn<Part, Integer> partInvColumn;
-    @FXML
-    private TableColumn<Part, Double> partPriceColumn;
-    @FXML
-    private TextField partSearchField;
+    @FXML Button cancelButton;
 
-    @FXML
-    private TableView<Part> associatedTableView;
-    @FXML
-    private TableColumn<Part, Integer> associatedIdColumn;
-    @FXML
-    private TableColumn<Part, String> associatedNameColumn;
-    @FXML
-    private TableColumn<Part, Integer> associatedInvColumn;
-    @FXML
-    private TableColumn<Part, Double> associatedPriceColumn;
+    @FXML private TableView<Part> partTableView;
+    @FXML private TableColumn<Part, Integer> partIdColumn;
+    @FXML private TableColumn<Part, String> partNameColumn;
+    @FXML private TableColumn<Part, Integer> partInvColumn;
+    @FXML private TableColumn<Part, Double> partPriceColumn;
+    @FXML private TextField partSearchField;
+    @FXML private Label searchPartConfirmationLabel;
+
+    @FXML private TableView<Part> associatedTableView;
+    @FXML private TableColumn<Part, Integer> associatedIdColumn;
+    @FXML private TableColumn<Part, String> associatedNameColumn;
+    @FXML private TableColumn<Part, Integer> associatedInvColumn;
+    @FXML private TableColumn<Part, Double> associatedPriceColumn;
 
     private Product selectedProduct;
     private ObservableList<Part> holdParts = FXCollections.observableArrayList();
@@ -86,7 +69,7 @@ public class ModifyProductController implements Initializable {
             product.addAssociatedPart(associated);
         }
         Inventory.updateProduct(product);
-        System.out.println(product.getAssociatedParts());
+
 
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
         Scene returnHomeScene = new Scene(returnHome);
@@ -127,6 +110,7 @@ public class ModifyProductController implements Initializable {
         associatedPriceColumn.setCellValueFactory(new PropertyValueFactory<Part, Double>("price"));
 
         productIdField.setDisable(true);
+        searchPartConfirmationLabel.setText("");
 
 
     }
@@ -143,35 +127,47 @@ public class ModifyProductController implements Initializable {
     }
 
 
-    //bug where button has to be clicked twice to remove
+
     public void removeAssociatedPart() {
         Part part = associatedTableView.getSelectionModel().getSelectedItem();
         holdParts.remove(part);
-
-
-
-    }
-
-
-    public void cancelButton(ActionEvent event) throws IOException {
-        Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-        Scene returnHomeScene = new Scene(returnHome);
-        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        window.setScene(returnHomeScene);
-        window.show();
+        selectedProduct.deleteAssociatedPart(part);
 
     }
 
 
+    public void cancelButton() throws IOException {
+        UtilityClass.cancelBackToMainScreen(cancelButton);
+    }
+
+
+    @FXML
     public void searchParts() {
 
         String q = partSearchField.getText();
-        try {
-            int id = Integer.parseInt(q);
-            partTableView.getSelectionModel().select((Inventory.lookupPartbyId(id)));
-        } catch (NumberFormatException e) {
-            partTableView.setItems(Inventory.lookupPart(q));
+
+        if(q.isEmpty()) {
+            partTableView.setItems(Inventory.getAllParts());
+            searchPartConfirmationLabel.setText("");
+        } else {
+            try {
+                int id = Integer.parseInt(q);
+                if(Inventory.lookupPartbyId(id) == null) {
+                    searchPartConfirmationLabel.setText("No ID by the name");
+                } else {
+                    partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
+                    searchPartConfirmationLabel.setText("ID Found");
+                }
+            } catch (NumberFormatException e) {
+                partTableView.setItems(Inventory.lookupPart(q));
+                if(partTableView.getItems().isEmpty()) {
+                    searchPartConfirmationLabel.setText("Could not find a match");
+                } else {
+                    searchPartConfirmationLabel.setText("Here is your part");
+                }
+            } finally {
+                partSearchField.clear();
+            }
         }
-        partSearchField.clear();
     }
 }

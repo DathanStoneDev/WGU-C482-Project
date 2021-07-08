@@ -25,10 +25,10 @@ public class Main extends Application {
     public static void main(String[] args) {
 
 
-        Part part1 = new InHousePart(1, "Yeeters", 4.5, 5, 1, 8,546);
-        Part part2 = new InHousePart(1, "Sup", 4.5, 5, 1, 8,546);
-        Part part3 = new InHousePart(1, "Nope", 4.5, 5, 1, 8,546);
-        Part part4 = new InHousePart(1, "Ahhhh", 4.5, 5, 1, 8,546);
+        Part part1 = new InHousePart(1, "radiator", 7.5, 5, 1, 8,555);
+        Part part2 = new InHousePart(2, "battery", 8.5, 5, 1, 8,546);
+        Part part3 = new InHousePart(3, "engine", 9.5, 5, 1, 8,577);
+        Part part4 = new InHousePart(4, "alternator", 4.5, 5, 1, 8,577);
         Inventory.addPart(part1);
         Inventory.addPart(part2);
         Inventory.addPart(part3);

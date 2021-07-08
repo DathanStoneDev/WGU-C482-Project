@@ -25,6 +25,7 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Part, Integer> partInvColumn;
     @FXML private TableColumn<Part, Double> partPriceColumn;
     @FXML private TextField partSearchField;
+    @FXML private Label searchPartConfirmationLabel;
 
     //Product Tableview properties
     @FXML private TableView<Product> productTableView;
@@ -33,10 +34,11 @@ public class MainController implements Initializable {
     @FXML private TableColumn<Product, Integer> productInvColumn;
     @FXML private TableColumn<Product, Double> productPriceColumn;
     @FXML private TextField productSearchField;
+    @FXML private Label searchProductConfirmationLabel;
 
     //Buttons
-    @FXML
-    private Button exitAppButton;
+    @FXML private Button exitAppButton;
+    @FXML private Button searchButton;
 
 
 
@@ -102,14 +104,22 @@ public class MainController implements Initializable {
 
     @FXML
     public void deleteButtonPressed() {
-        Part part = partTableView.getSelectionModel().getSelectedItem();
-        Inventory.deletePart(part);
+            Part part = partTableView.getSelectionModel().getSelectedItem();
+            Inventory.deletePart(part);
     }
 
     @FXML
     public void deleteButtonPressedProduct() {
         Product product = productTableView.getSelectionModel().getSelectedItem();
-        Inventory.deleteProduct(product);
+        if(product.getAssociatedParts().isEmpty()) {
+            Inventory.deleteProduct(product);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Alert");
+            alert.setContentText("You cannot delete a product associated with a part.");
+            alert.showAndWait();
+        }
+
     }
     //Accounts for ids and names. Capitalization matters so possibly change that.
     //only highlights first  item found.
@@ -117,16 +127,30 @@ public class MainController implements Initializable {
     public void searchParts() {
 
         String q = partSearchField.getText();
-        try {
-            int id = Integer.parseInt(q);
-            partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
-        } catch (NumberFormatException e) {
-            partTableView.setItems(Inventory.lookupPart(q));
+
+        if(q.isEmpty()) {
+            partTableView.setItems(Inventory.getAllParts());
+            searchPartConfirmationLabel.setText("");
+        } else {
+            try {
+                int id = Integer.parseInt(q);
+                if(Inventory.lookupPartbyId(id) == null) {
+                    searchPartConfirmationLabel.setText("No ID by the name");
+                } else {
+                    partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
+                    searchPartConfirmationLabel.setText("ID Found");
+                }
+            } catch (NumberFormatException e) {
+                partTableView.setItems(Inventory.lookupPart(q));
+                if(partTableView.getItems().isEmpty()) {
+                    searchPartConfirmationLabel.setText("Could not find a match");
+                } else {
+                    searchPartConfirmationLabel.setText("Here is your part");
+                }
+            } finally {
+                partSearchField.clear();
+            }
         }
-        partSearchField.clear();
-
-
-
     }
     @FXML
     public void searchProducts() {
@@ -135,12 +159,22 @@ public class MainController implements Initializable {
         try {
             int id = Integer.parseInt(q);
             productTableView.getSelectionModel().select((Inventory.lookupProductById(id)));
-
+            if(Inventory.lookupProductById(id) == null) {
+                searchProductConfirmationLabel.setText("No ID by the name");
+            } else {
+                productTableView.getSelectionModel().select(Inventory.lookupProductById(id));
+                searchProductConfirmationLabel.setText("ID Found");
+            }
         } catch (NumberFormatException n) {
-            productTableView.setItems(Inventory.lookupProduct(q));
+            productTableView.setItems((Inventory.lookupProduct(q)));
+            if(productTableView.getItems().isEmpty()) {
+                searchProductConfirmationLabel.setText("Could not find a match");
+            } else {
+                searchProductConfirmationLabel.setText("Here is your part");
+            }
+        } finally {
+            productSearchField.clear();
         }
-        productSearchField.clear();
-
     }
 
 
@@ -164,6 +198,14 @@ public class MainController implements Initializable {
         productNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("productName"));
         productInvColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productStock"));
         productPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, Double>("productPrice"));
+
+        searchPartConfirmationLabel.setText("");
+        partTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
+        Part part1 = new InHousePart(1, "radiator", 7.5, 5, 1, 8,555);
+        Part part2 = new InHousePart(2, "battery", 8.5, 5, 1, 8,546);
+        Part part3 = new InHousePart(3, "engine", 9.5, 5, 1, 8,577);
+        Part part4 = new InHousePart(4, "alternator", 4.5, 5, 1, 8,577);
 
     }
 }

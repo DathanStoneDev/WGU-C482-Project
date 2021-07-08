@@ -37,7 +37,7 @@ public class PartController implements Initializable {
     @FXML private Label labelChange;
 
     boolean isInHouse;
-
+    //NOTE: pOSSIBLY BUTTON CLICK ISSUE MAKING PARTS TURN OUTSOURCE
     @FXML
     private void buttonInHouse(){
         labelChange.setText("Machine ID");
@@ -70,7 +70,7 @@ public class PartController implements Initializable {
             }
         }
 
-        if(isInHouse){
+        if(isInHouse == true){
             Inventory.addPart(new InHousePart(id, name, price, inv, min, max, Integer.parseInt(machineId)));
         } else {
             Inventory.addPart(new OutsourcedPart(id, name, price, inv, min, max, machineId));
@@ -98,6 +98,7 @@ public class PartController implements Initializable {
         inHousePartButton.setToggleGroup(addPartGroup);
         outsourcePartButton.setToggleGroup(addPartGroup);
         inHousePartButton.setSelected(true);
+        isInHouse=true;
         partIdField.setText("Automatically Generated");
         partIdField.setDisable(true);
     }

@@ -8,10 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import wgu.stone.model.Inventory;
@@ -31,12 +28,15 @@ public class ProductController implements Initializable {
     @FXML private TableColumn<Part, Double> partPriceColumn;
     @FXML private TextField partSearchField;
 
+    @FXML private Button cancelButton;
+
     //Associated Parts tableview fields
     @FXML private TableView<Part> associatedTableView;
     @FXML private TableColumn<Part, Integer> associatedIdColumn;
     @FXML private TableColumn<Part, String> associatedNameColumn;
     @FXML private TableColumn<Part, Integer> associatedInvColumn;
     @FXML private TableColumn<Part, Double> associatedPriceColumn;
+    @FXML private Label searchPartConfirmationLabel;
 
     //Product Text fields
     @FXML private TextField productIdField;
@@ -107,26 +107,38 @@ public class ProductController implements Initializable {
 
     //cancel button that goes back to the main screen
     @FXML
-    public void cancelButton(ActionEvent event) throws IOException {
-        Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-        Scene returnHomeScene = new Scene(returnHome);
-        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        window.setScene(returnHomeScene);
-        window.show();
-
+    public void cancelButton() throws IOException {
+        UtilityClass.cancelBackToMainScreen(cancelButton);
     }
 
     @FXML
     public void searchParts() {
 
         String q = partSearchField.getText();
-        try {
-            int id = Integer.parseInt(q);
-            partTableView.getSelectionModel().select((Inventory.lookupPartbyId(id)));
-        } catch (NumberFormatException e) {
-            partTableView.setItems(Inventory.lookupPart(q));
+
+        if(q.isEmpty()) {
+            partTableView.setItems(Inventory.getAllParts());
+            searchPartConfirmationLabel.setText("");
+        } else {
+            try {
+                int id = Integer.parseInt(q);
+                if(Inventory.lookupPartbyId(id) == null) {
+                    searchPartConfirmationLabel.setText("No ID by the name");
+                } else {
+                    partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
+                    searchPartConfirmationLabel.setText("ID Found");
+                }
+            } catch (NumberFormatException e) {
+                partTableView.setItems(Inventory.lookupPart(q));
+                if(partTableView.getItems().isEmpty()) {
+                    searchPartConfirmationLabel.setText("Could not find a match");
+                } else {
+                    searchPartConfirmationLabel.setText("Here is your part");
+                }
+            } finally {
+                partSearchField.clear();
+            }
         }
-        partSearchField.clear();
     }
 
 
@@ -149,5 +161,6 @@ public class ProductController implements Initializable {
 
         productIdField.setDisable(true);
         productIdField.setText("Automatically Generated");
+        searchPartConfirmationLabel.setText("");
     }
 }

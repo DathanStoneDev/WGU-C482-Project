@@ -4,6 +4,8 @@ package wgu.stone.model;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Locale;
+
 
 public class Inventory {
 
@@ -34,7 +36,7 @@ public class Inventory {
     public static ObservableList<Part> lookupPart(String name) {
         ObservableList searchedPart = FXCollections.observableArrayList();
         for(Part n : allParts) {
-            if(n.getName().contains(name)) {
+            if(n.getName().toLowerCase().contains(name.toLowerCase())) {
                 searchedPart.add(n);
             }
         } return searchedPart;
@@ -43,7 +45,7 @@ public class Inventory {
     public static ObservableList<Product> lookupProduct(String name) {
         ObservableList searchedProductByName = FXCollections.observableArrayList();
         for(Product n : allProducts) {
-            if(n.getProductName().contains(name)) {
+            if(n.getProductName().toLowerCase().contains(name.toLowerCase())) {
                 searchedProductByName.add(n);
             }
         } return searchedProductByName;

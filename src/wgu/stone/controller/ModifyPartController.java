@@ -77,8 +77,8 @@ public class ModifyPartController implements Initializable {
             modifiedInHouse.setId(id);
             modifiedInHouse.setName(name);
             modifiedInHouse.setPrice(price);
-            modifiedInHouse.setStock(inv);
             modifiedInHouse.setMin(min);
+            modifiedInHouse.setStock(inv);
             modifiedInHouse.setMax(max);
             modifiedInHouse.setMachineId(Integer.parseInt(machineId));
 
@@ -96,7 +96,7 @@ public class ModifyPartController implements Initializable {
 
             Inventory.updatePart(modifiedOutsource);
 
-        }
+            }
 
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
         Scene returnHomeScene = new Scene(returnHome);
@@ -121,7 +121,7 @@ public class ModifyPartController implements Initializable {
             labelChange.setText("Machine ID");
             inHousePartButton.setSelected(true);
         }
-        else  if (part instanceof OutsourcedPart) {
+        else {
             OutsourcedPart outSource = (OutsourcedPart) part;
             partMachineIdField.setText((outSource.getCompanyName()));
             labelChange.setText("Company");
@@ -142,3 +142,4 @@ public class ModifyPartController implements Initializable {
         partIdField.setDisable(true);
     }
 }
+

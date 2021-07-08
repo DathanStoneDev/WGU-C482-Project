@@ -32,6 +32,7 @@
             <Label layoutX="8.0" text="Parts" />
             <TextField fx:id="partSearchField" layoutX="310.0" layoutY="4.0" onInputMethodTextChanged="#searchParts" />
             <Button fx:id="searchButton" layoutX="258.0" layoutY="2.0" mnemonicParsing="false" onAction="#searchParts" text="search" />
+            <Label fx:id="searchPartConfirmationLabel" layoutX="44.0" layoutY="240.0" />
          </children>
       </Pane>
       <Pane layoutX="466.0" layoutY="220.0" prefHeight="300.0" prefWidth="455.0">
@@ -50,6 +51,7 @@
             <Label layoutX="14.0" layoutY="6.0" text="Products" />
             <TextField fx:id="productSearchField" layoutX="298.0" layoutY="11.0" onInputMethodTextChanged="#searchParts" />
             <Button fx:id="searchButton1" layoutX="252.0" layoutY="11.0" mnemonicParsing="false" onAction="#searchProducts" text="search" />
+            <Label fx:id="searchProductConfirmationLabel" layoutX="14.0" layoutY="269.0" />
          </children>
       </Pane>
       <Button fx:id="exitAppButton" layoutX="865.0" layoutY="558.0" mnemonicParsing="false" onAction="#exitApplication" text="Exit" />
