@@ -70,7 +70,7 @@ public class PartController implements Initializable {
             }
         }
 
-        if(isInHouse == true){
+        if(isInHouse){
             Inventory.addPart(new InHousePart(id, name, price, inv, min, max, Integer.parseInt(machineId)));
         } else {
             Inventory.addPart(new OutsourcedPart(id, name, price, inv, min, max, machineId));
