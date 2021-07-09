@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import wgu.stone.model.*;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -104,25 +105,33 @@ public class MainController implements Initializable {
 
     @FXML
     public void deleteButtonPressed() {
-            Part part = partTableView.getSelectionModel().getSelectedItem();
-            Inventory.deletePart(part);
+        Part part = partTableView.getSelectionModel().getSelectedItem();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Alert");
+        alert.setContentText("Are you sure you want to delete the part?");
+        Optional<ButtonType> result = alert.showAndWait();
+            if(result.isPresent() && result.get() == ButtonType.OK) {
+                Inventory.deletePart(part);
+            }
     }
 
     @FXML
     public void deleteButtonPressedProduct() {
         Product product = productTableView.getSelectionModel().getSelectedItem();
         if(product.getAssociatedParts().isEmpty()) {
-            Inventory.deleteProduct(product);
-        } else {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Alert");
-            alert.setContentText("You cannot delete a product associated with a part.");
-            alert.showAndWait();
+            alert.setContentText("Are you sure you want to delete the product?");
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.isPresent() && result.get() == ButtonType.OK) {
+                Inventory.deleteProduct(product);
+            }
+        } else {
+            UtilityClass.errorAlerts(3);
         }
 
     }
-    //Accounts for ids and names. Capitalization matters so possibly change that.
-    //only highlights first  item found.
+
     @FXML
     public void searchParts() {
 

@@ -74,16 +74,35 @@ public class ModifyPartController implements Initializable {
         if(isInHouse) {
 
             InHousePart modifiedInHouse = new InHousePart(id, name, price, inv, min, max, Integer.parseInt(machineId));
-            modifiedInHouse.setId(id);
-            modifiedInHouse.setName(name);
-            modifiedInHouse.setPrice(price);
-            modifiedInHouse.setMin(min);
-            modifiedInHouse.setStock(inv);
-            modifiedInHouse.setMax(max);
-            modifiedInHouse.setMachineId(Integer.parseInt(machineId));
+            //do a validity check on all
 
-            //need the updatePart method from inventory to finalize.
-            Inventory.updatePart(modifiedInHouse);
+            //if statement: if passes then do the below. If not, throw an error message.
+
+            //put validity checks in product and part classes.
+
+            //experiment with try catch blocks
+            if((min < max) && (inv > min) && (inv < max)) {
+                modifiedInHouse.setId(id);
+                modifiedInHouse.setName(name);
+                modifiedInHouse.setPrice(price);
+                modifiedInHouse.setMin(min);
+                modifiedInHouse.setStock(inv);
+                modifiedInHouse.setMax(max);
+                modifiedInHouse.setMachineId(Integer.parseInt(machineId));
+                Inventory.updatePart(modifiedInHouse);
+
+                Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
+                Scene returnHomeScene = new Scene(returnHome);
+                Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                window.setScene(returnHomeScene);
+                window.show();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Alert");
+                alert.setContentText("Min must be larger than the max");
+                alert.showAndWait();
+            }
+
         } else {
             OutsourcedPart modifiedOutsource = new OutsourcedPart(id, name, price, inv, min, max, machineId);
             modifiedOutsource.setId(id);
@@ -97,12 +116,6 @@ public class ModifyPartController implements Initializable {
             Inventory.updatePart(modifiedOutsource);
 
             }
-
-        Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-        Scene returnHomeScene = new Scene(returnHome);
-        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        window.setScene(returnHomeScene);
-        window.show();
     }
 
     //Data sent from the Main Controller when the Modify Button for parts is selected.
