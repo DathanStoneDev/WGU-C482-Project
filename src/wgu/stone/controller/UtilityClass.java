@@ -31,11 +31,11 @@ public final class UtilityClass {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         switch(errorSelection) {
             case 1: alert.setTitle("Alert");
-                    alert.setContentText("The min must be greater than the max.");
+                    alert.setContentText("The min must be less than the max.");
                     alert.showAndWait();
                     break;
             case 2: alert.setTitle("Alert");
-                    alert.setContentText("The inventory must be between the min and the max");
+                    alert.setContentText("The inventory must be between the min and the max.");
                     alert.showAndWait();
                     break;
             case 3: alert.setTitle("Alert");
@@ -43,8 +43,16 @@ public final class UtilityClass {
                             " Please delete the associated parts first.");
                     alert.showAndWait();
                     break;
+            case 4: alert.setTitle("Alert");
+                    alert.setContentText("Field cannot be empty! Please enter a valid value.");
+                    alert.showAndWait();
+                break;
+            case 5: alert.setTitle("Alert");
+                    alert.setContentText("Price must be in decimal format");
+                    alert.showAndWait();
+                    break;
             default: alert.setTitle("Alert");
-                     alert.setContentText("Error");
+                     alert.setContentText("Error!");
                      alert.showAndWait();
                      break;
         }

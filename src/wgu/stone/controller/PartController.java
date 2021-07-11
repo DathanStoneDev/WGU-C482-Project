@@ -37,7 +37,7 @@ public class PartController implements Initializable {
     @FXML private Label labelChange;
 
     boolean isInHouse;
-    //NOTE: pOSSIBLY BUTTON CLICK ISSUE MAKING PARTS TURN OUTSOURCE
+
     @FXML
     private void buttonInHouse(){
         labelChange.setText("Machine ID");
