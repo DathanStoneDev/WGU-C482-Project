@@ -79,47 +79,53 @@ public class ModifyPartController implements Initializable {
             return;
         }
 
-        int inv = 0;
+        int inv;
         try {
             inv = Integer.parseInt(partInvField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(6);
+            return;
+        }
+        double partPrice;
+        try {
+            partPrice = Double.parseDouble(partPriceField.getText());
         } catch (NumberFormatException e) {
             UtilityClass.errorAlerts(5);
             return;
         }
-        double partPrice = 0.0;
-        try {
-            partPrice = Double.parseDouble(partPriceField.getText());
-        } catch (NumberFormatException e) {
-            UtilityClass.errorAlerts(4);
-            return;
-        }
 
-        int min = 0;
+        int min;
         try {
             min = Integer.parseInt(partMinField.getText());
         } catch (NumberFormatException e) {
-            UtilityClass.errorAlerts(4);
+            UtilityClass.errorAlerts(7);
             return;
         }
 
-        int max = 0;
+        int max;
         try {
             max = Integer.parseInt(partMaxField.getText());
         } catch (NumberFormatException e){
-            UtilityClass.errorAlerts(4);
+            UtilityClass.errorAlerts(8);
             return;
         }
 
+        if(min > max) {
+            UtilityClass.errorAlerts(1);
+            return;
+        }
 
-
-
+        if(inv < min || inv > max) {
+            UtilityClass.errorAlerts(2);
+            return;
+        }
 
             if (isInHouse) {
-                int machineId = 0;
+                int machineId;
                 try {
                     machineId = Integer.parseInt(partMachineIdField.getText());
                 } catch (NumberFormatException e){
-                    UtilityClass.errorAlerts(5);
+                    UtilityClass.errorAlerts(9);
                     return;
                 }
                 Inventory.updatePart(new InHousePart(partId, partName, partPrice, inv, min, max, machineId));
@@ -134,11 +140,9 @@ public class ModifyPartController implements Initializable {
 
 
         else {
-                String companyName = "";
-                try {
-                    companyName = partMachineIdField.getText();
-                } catch (NumberFormatException e) {
-                    UtilityClass.errorAlerts(5);
+                String companyName = partMachineIdField.getText();
+                if(companyName.isEmpty()) {
+                    UtilityClass.errorAlerts(4);
                     return;
                 }
                 Inventory.updatePart(new OutsourcedPart(partId, partName, partPrice, inv, min, max, companyName));

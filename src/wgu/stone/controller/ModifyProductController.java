@@ -48,14 +48,55 @@ public class ModifyProductController implements Initializable {
 
 
 
-    public void saveModifiedProduct(ActionEvent event) throws IOException {
 
+    public void saveModifiedProduct(ActionEvent event) throws IOException {
         int productId = Integer.parseInt(productIdField.getText());
         String productName = productNameField.getText();
-        int productInv = Integer.parseInt(productStockField.getText());
-        double productPrice = Double.parseDouble(productPriceField.getText());
-        int minProduct = Integer.parseInt(minProductField.getText());
-        int maxProduct = Integer.parseInt(maxProductField.getText());
+        if(productName.isEmpty()) {
+            UtilityClass.errorAlerts(4);
+            return;
+        }
+
+        int productInv;
+        try {
+            productInv = Integer.parseInt(productStockField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(6);
+            return;
+        }
+        double productPrice;
+        try {
+            productPrice = Double.parseDouble(productPriceField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(5);
+            return;
+        }
+
+        int minProduct;
+        try {
+            minProduct = Integer.parseInt(minProductField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(7);
+            return;
+        }
+
+        int maxProduct;
+        try {
+            maxProduct = Integer.parseInt(maxProductField.getText());
+        } catch (NumberFormatException e){
+            UtilityClass.errorAlerts(8);
+            return;
+        }
+
+        if(minProduct > maxProduct) {
+            UtilityClass.errorAlerts(1);
+            return;
+        }
+
+        if(productInv < minProduct || productInv > maxProduct) {
+            UtilityClass.errorAlerts(2);
+            return;
+        }
 
         Product product = new Product();
         product.setProductId(productId);
@@ -65,9 +106,13 @@ public class ModifyProductController implements Initializable {
         product.setMinProduct(minProduct);
         product.setMaxProduct(maxProduct);
 
+        // adds parts from holdParts list to the product associatedParts list
         for(Part associated : holdParts) {
             product.addAssociatedPart(associated);
         }
+
+
+
         Inventory.updateProduct(product);
 
 

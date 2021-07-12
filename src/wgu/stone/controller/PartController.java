@@ -56,24 +56,84 @@ public class PartController implements Initializable {
     public void savePart(ActionEvent event) throws IOException{
 
 
-        String name = partNameField.getText();
-        int inv = Integer.parseInt(partInvField.getText());
-        double price = Double.parseDouble(partPriceField.getText());
-        int min = Integer.parseInt(partMinField.getText());
-        int max = Integer.parseInt(partMaxField.getText());
-        String machineId = (partMachineIdField.getText());
+        String partName = partNameField.getText();
+        if(partName.isEmpty()) {
+            UtilityClass.errorAlerts(4);
+            return;
+        }
 
-        int id = 0;
+        int inv;
+        try {
+            inv = Integer.parseInt(partInvField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(6);
+            return;
+        }
+        double partPrice;
+        try {
+            partPrice = Double.parseDouble(partPriceField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(5);
+            return;
+        }
+
+        int min;
+        try {
+            min = Integer.parseInt(partMinField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(7);
+            return;
+        }
+
+        int max;
+        try {
+            max = Integer.parseInt(partMaxField.getText());
+        } catch (NumberFormatException e){
+            UtilityClass.errorAlerts(8);
+            return;
+        }
+
+        if(min > max) {
+            UtilityClass.errorAlerts(1);
+            return;
+        }
+
+        if(inv < min || inv > max) {
+            UtilityClass.errorAlerts(2);
+            return;
+        }
+
+
+        int partId = 0;
         for(Part i : Inventory.getAllParts()) {
-            if(i.getId() >= id) {
-                id = i.getId() + 1;
+            if(i.getId() >= partId) {
+                partId = i.getId() + 1;
             }
         }
 
         if(isInHouse){
-            Inventory.addPart(new InHousePart(id, name, price, inv, min, max, Integer.parseInt(machineId)));
+            int machineId;
+            try {
+                machineId = Integer.parseInt(partMachineIdField.getText());
+            } catch (NumberFormatException e){
+                UtilityClass.errorAlerts(9);
+                return;
+            }
+            Inventory.addPart(new InHousePart(partId, partName, partPrice, inv, min, max, machineId));
+
+            Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
+            Scene returnHomeScene = new Scene(returnHome);
+            Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+            window.setScene(returnHomeScene);
+            window.show();
+
         } else {
-            Inventory.addPart(new OutsourcedPart(id, name, price, inv, min, max, machineId));
+            String companyName = partMachineIdField.getText();
+            if(companyName.isEmpty()) {
+                UtilityClass.errorAlerts(4);
+                return;
+            }
+            Inventory.updatePart(new OutsourcedPart(partId, partName, partPrice, inv, min, max, companyName));
         }
 
         Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));

@@ -70,18 +70,60 @@ public class ProductController implements Initializable {
     public void saveProduct(ActionEvent event) throws IOException {
 
         String productName = productNameField.getText();
-        int productInv = Integer.parseInt(productStockField.getText());
-        double productPrice = Double.parseDouble(productPriceField.getText());
-        int minProduct = Integer.parseInt(minProductField.getText());
-        int maxProduct = Integer.parseInt(maxProductField.getText());
+        if(productName.isEmpty()) {
+            UtilityClass.errorAlerts(4);
+            return;
+        }
 
-        //Automatic id generator
+        int productInv;
+        try {
+            productInv = Integer.parseInt(productStockField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(6);
+            return;
+        }
+        double productPrice;
+        try {
+            productPrice = Double.parseDouble(productPriceField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(5);
+            return;
+        }
+
+        int minProduct;
+        try {
+            minProduct = Integer.parseInt(minProductField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(7);
+            return;
+        }
+
+        int maxProduct;
+        try {
+            maxProduct = Integer.parseInt(maxProductField.getText());
+        } catch (NumberFormatException e){
+            UtilityClass.errorAlerts(8);
+            return;
+        }
+
+        if(minProduct > maxProduct) {
+            UtilityClass.errorAlerts(1);
+            return;
+        }
+
+        if(productInv < minProduct || productInv > maxProduct) {
+            UtilityClass.errorAlerts(2);
+            return;
+        }
+
+
         int productId = 0;
         for(Product i : Inventory.getAllProducts()) {
             if(i.getProductId() >= productId) {
                 productId = i.getProductId() + 1;
             }
         }
+
 
         product.setProductId(productId);
         product.setProductName(productName);
