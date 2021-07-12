@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
 public class ModifyPartController implements Initializable {
 
     //Part Text Fields
@@ -48,6 +49,10 @@ public class ModifyPartController implements Initializable {
     private Part selectedPart;
 
 
+
+
+
+
     @FXML
     private void buttonInHouse(){
         labelChange.setText("Machine ID");
@@ -65,55 +70,87 @@ public class ModifyPartController implements Initializable {
 
 
     @FXML
-    public void saveModifiedPart (ActionEvent event) throws IOException {
-        int id = Integer.parseInt(partIdField.getText());
-        String name = partNameField.getText();
-        int inv = Integer.parseInt(partInvField.getText());
-        Double price = Double.parseDouble(partPriceField.getText());
-        int min = Integer.parseInt(partMinField.getText());
-        int max = Integer.parseInt(partMaxField.getText());
-        String machineId = (partMachineIdField.getText());
+    public void saveModifiedPart (ActionEvent event) throws IOException{
+        int partId = Integer.parseInt(partIdField.getText());
+        String partName = partNameField.getText();
 
-        if (isInHouse) {
-            InHousePart modifiedInHouse = new InHousePart(id, name, price, inv, min, max, Integer.parseInt(machineId));
-            //do a validity check on all
+        if(partName.isEmpty()) {
+            UtilityClass.errorAlerts(4);
+            return;
+        }
 
-            //if statement: if passes then do the below. If not, throw an error message.
+        int inv = 0;
+        try {
+            inv = Integer.parseInt(partInvField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(5);
+            return;
+        }
+        double partPrice = 0.0;
+        try {
+            partPrice = Double.parseDouble(partPriceField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(4);
+            return;
+        }
 
-            //put validity checks in product and part classes.
+        int min = 0;
+        try {
+            min = Integer.parseInt(partMinField.getText());
+        } catch (NumberFormatException e) {
+            UtilityClass.errorAlerts(4);
+            return;
+        }
 
-            //experiment with try catch blocks
-
-            modifiedInHouse.setId(id);
-            modifiedInHouse.setName(name);
-            modifiedInHouse.setPrice(price);
-            modifiedInHouse.setMin(min);
-            modifiedInHouse.setStock(inv);
-            modifiedInHouse.setMax(max);
-            modifiedInHouse.setMachineId(Integer.parseInt(machineId));
-            Inventory.updatePart(modifiedInHouse);
-
-            Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-            Scene returnHomeScene = new Scene(returnHome);
-            Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            window.setScene(returnHomeScene);
-            window.show();
+        int max = 0;
+        try {
+            max = Integer.parseInt(partMaxField.getText());
+        } catch (NumberFormatException e){
+            UtilityClass.errorAlerts(4);
+            return;
+        }
 
 
-        } else {
-            OutsourcedPart modifiedOutsource = new OutsourcedPart(id, name, price, inv, min, max, machineId);
-            modifiedOutsource.setId(id);
-            modifiedOutsource.setName(name);
-            modifiedOutsource.setPrice(price);
-            modifiedOutsource.setStock(inv);
-            modifiedOutsource.setMin(min);
-            modifiedOutsource.setMax(max);
-            modifiedOutsource.setCompanyName(machineId);
 
-            Inventory.updatePart(modifiedOutsource);
+
+
+            if (isInHouse) {
+                int machineId = 0;
+                try {
+                    machineId = Integer.parseInt(partMachineIdField.getText());
+                } catch (NumberFormatException e){
+                    UtilityClass.errorAlerts(5);
+                    return;
+                }
+                Inventory.updatePart(new InHousePart(partId, partName, partPrice, inv, min, max, machineId));
+
+
+                Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
+                Scene returnHomeScene = new Scene(returnHome);
+                Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                window.setScene(returnHomeScene);
+                window.show();
+            }
+
+
+        else {
+                String companyName = "";
+                try {
+                    companyName = partMachineIdField.getText();
+                } catch (NumberFormatException e) {
+                    UtilityClass.errorAlerts(5);
+                    return;
+                }
+                Inventory.updatePart(new OutsourcedPart(partId, partName, partPrice, inv, min, max, companyName));
+
+                Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
+                Scene returnHomeScene = new Scene(returnHome);
+                Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
+                window.setScene(returnHomeScene);
+                window.show();
+            }
 
         }
-    }
 
     //Data sent from the Main Controller when the Modify Button for parts is selected.
     public void initData(Part part) {
@@ -154,4 +191,6 @@ public class ModifyPartController implements Initializable {
         partIdField.setDisable(true);
     }
 }
+
+
 
