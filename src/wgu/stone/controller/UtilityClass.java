@@ -8,15 +8,24 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import java.io.IOException;
 
-
+/**
+ * UtilityClass provides static methods that are commonly seen throughout the application.
+ */
 public final class UtilityClass {
 
-    //prevents instantiation of this class. This class is strictly for providing static methods that can be used across all classes.
+    /**
+     * Private constructor prevents instantiation of this class. This class is strictly for providing static methods that can be used across all classes.
+     */
     private UtilityClass () {
         throw new UnsupportedOperationException("Cannot instantiate the Utility Class");
     }
 
-    //edit name to just backToMainScreen - this can be used by the cancel button and when the save buttons are hit
+    /**
+     * General method for classes to get back to the main screen, through a cancel button or a save button when adding
+     * or modifying parts and products.
+     * @param button
+     * @throws IOException
+     */
     public static void BackToMainScreen(Button button) throws IOException {
         Parent returnHome = FXMLLoader.load(UtilityClass.class.getResource("/wgu/stone/view/MainWindow.fxml"));
         Scene returnHomeScene = new Scene(returnHome);
@@ -25,6 +34,10 @@ public final class UtilityClass {
         window.show();
     }
 
+    /**
+     * Switch that contains all the possible alerts that can be thrown if errors occur during validation of data.
+     * @param errorSelection
+     */
     public static void errorAlerts(int errorSelection) {
 
         Alert alert = new Alert(Alert.AlertType.ERROR);

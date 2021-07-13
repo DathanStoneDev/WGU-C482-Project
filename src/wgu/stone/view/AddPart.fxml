@@ -30,6 +30,6 @@
       <TextField fx:id="partMinField" layoutX="346.0" layoutY="248.0" />
       <Label layoutX="300.0" layoutY="252.0" text="Min" />
       <Button fx:id="saveButton" layoutX="130.0" layoutY="345.0" mnemonicParsing="false" onAction="#savePart" text="Save" />
-      <Button fx:id="cancelAdd" layoutX="198.0" layoutY="345.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
+      <Button fx:id="cancelButton" layoutX="198.0" layoutY="345.0" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" />
    </children>
 </AnchorPane>

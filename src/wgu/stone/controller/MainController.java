@@ -187,6 +187,7 @@ public class MainController implements Initializable {
     /**
      * Method for confirmation of finding parts through the search function.
      * Changes a label in the UI to tell the user if a part was found or not based on ID or Name lookup.
+     * The finally block clears the search field. Click the search button when empty to get a list of all parts.
      */
     @FXML
     public void searchParts() {
@@ -221,6 +222,7 @@ public class MainController implements Initializable {
     /**
      * Method for confirmation of finding parts through the search function.
      * Changes a label in the UI to tell the user if a product was found or not based on ID or Name lookup.
+     * The finally block clears the search field. Click the search button when empty to get a list of all products.
      */
     @FXML
     public void searchProducts() {
@@ -249,7 +251,7 @@ public class MainController implements Initializable {
 
 
     /**
-     * Initializes the tables in the main scene and adds testing data.
+     * Initializes the tables in the main scene.
      * @param url
      * @param rb
      */
@@ -275,12 +277,5 @@ public class MainController implements Initializable {
         //labels initialized to be empty. Changed selection mode to multiple.
         searchPartConfirmationLabel.setText("");
         partTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        //testing data.
-        Part part1 = new InHousePart(1, "radiator", 7.5, 5, 1, 8,555);
-        Part part2 = new InHousePart(2, "battery", 8.5, 5, 1, 8,546);
-        Part part3 = new InHousePart(3, "engine", 9.5, 5, 1, 8,577);
-        Part part4 = new InHousePart(4, "alternator", 4.5, 5, 1, 8,577);
-
     }
 }
