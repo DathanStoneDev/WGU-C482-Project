@@ -2,12 +2,8 @@ package wgu.stone.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 import wgu.stone.model.InHousePart;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.OutsourcedPart;
@@ -38,6 +34,7 @@ public class ModifyPartController implements Initializable {
 
     @FXML
     private Button cancelButton;
+    @FXML private Button saveButton;
 
     //label that changes from "Machine ID" to "Company Name" based on radio button selection.
     @FXML
@@ -129,32 +126,22 @@ public class ModifyPartController implements Initializable {
                     return;
                 }
                 Inventory.updatePart(new InHousePart(partId, partName, partPrice, inv, min, max, machineId));
+                UtilityClass.BackToMainScreen(saveButton);
 
 
-                Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-                Scene returnHomeScene = new Scene(returnHome);
-                Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                window.setScene(returnHomeScene);
-                window.show();
             }
-
-
-        else {
+            else {
                 String companyName = partMachineIdField.getText();
                 if(companyName.isEmpty()) {
                     UtilityClass.errorAlerts(4);
                     return;
                 }
                 Inventory.updatePart(new OutsourcedPart(partId, partName, partPrice, inv, min, max, companyName));
+                UtilityClass.BackToMainScreen(saveButton);
 
-                Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-                Scene returnHomeScene = new Scene(returnHome);
-                Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-                window.setScene(returnHomeScene);
-                window.show();
             }
 
-        }
+    }
 
     //Data sent from the Main Controller when the Modify Button for parts is selected.
     public void initData(Part part) {
@@ -184,7 +171,7 @@ public class ModifyPartController implements Initializable {
 
     @FXML
     public void cancelButton() throws IOException {
-        UtilityClass.cancelBackToMainScreen(cancelButton);
+        UtilityClass.BackToMainScreen(cancelButton);
     }
 
     @Override

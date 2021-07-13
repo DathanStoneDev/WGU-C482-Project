@@ -2,15 +2,10 @@ package wgu.stone.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.Part;
 import wgu.stone.model.Product;
@@ -28,6 +23,7 @@ public class ModifyProductController implements Initializable {
     @FXML private TextField maxProductField;
 
     @FXML Button cancelButton;
+    @FXML Button saveButton;
 
     @FXML private TableView<Part> partTableView;
     @FXML private TableColumn<Part, Integer> partIdColumn;
@@ -49,7 +45,7 @@ public class ModifyProductController implements Initializable {
 
 
 
-    public void saveModifiedProduct(ActionEvent event) throws IOException {
+    public void saveModifiedProduct() throws IOException {
         int productId = Integer.parseInt(productIdField.getText());
         String productName = productNameField.getText();
         if(productName.isEmpty()) {
@@ -116,11 +112,7 @@ public class ModifyProductController implements Initializable {
         Inventory.updateProduct(product);
 
 
-        Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-        Scene returnHomeScene = new Scene(returnHome);
-        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        window.setScene(returnHomeScene);
-        window.show();
+        UtilityClass.BackToMainScreen(saveButton);
     }
 
     public void initData(Product product) {
@@ -182,7 +174,7 @@ public class ModifyProductController implements Initializable {
 
 
     public void cancelButton() throws IOException {
-        UtilityClass.cancelBackToMainScreen(cancelButton);
+        UtilityClass.BackToMainScreen(cancelButton);
     }
 
 

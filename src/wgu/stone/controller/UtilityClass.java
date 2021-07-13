@@ -17,7 +17,7 @@ public final class UtilityClass {
     }
 
     //edit name to just backToMainScreen - this can be used by the cancel button and when the save buttons are hit
-    public static void cancelBackToMainScreen(Button button) throws IOException {
+    public static void BackToMainScreen(Button button) throws IOException {
         Parent returnHome = FXMLLoader.load(UtilityClass.class.getResource("/wgu/stone/view/MainWindow.fxml"));
         Scene returnHomeScene = new Scene(returnHome);
         Stage window = (Stage) button.getScene().getWindow();
@@ -26,8 +26,7 @@ public final class UtilityClass {
     }
 
     public static void errorAlerts(int errorSelection) {
-        //need for min < max and Inv needs to be between min and max
-        //alert for not deleting product with part associated
+
         Alert alert = new Alert(Alert.AlertType.ERROR);
         switch(errorSelection) {
             case 1: alert.setTitle("Alert");
@@ -65,6 +64,10 @@ public final class UtilityClass {
                 break;
             case 9: alert.setTitle("Alert");
                 alert.setContentText("Machine ID must be in integer format");
+                alert.showAndWait();
+                break;
+            case 10: alert.setTitle("Alert");
+                alert.setContentText("Selector is empty. Please make a selection before modifying");
                 alert.showAndWait();
                 break;
             default: alert.setTitle("Alert");

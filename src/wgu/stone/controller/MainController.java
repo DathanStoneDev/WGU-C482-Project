@@ -16,34 +16,56 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Main Controller class that shows the initial startup screen.
+ * Controls the flow to the scenes.
+ */
 public class MainController implements Initializable {
 
 
-    //Parts Tableview properties.
+    /**
+     * Fields of the Parts Table.
+     * TableView is the table that holds the data.
+     * TableColumns for id, name, inventory and price of parts.
+     * TextField for the searchbar.
+     */
     @FXML private TableView<Part> partTableView;
     @FXML private TableColumn<Part, Integer> partIdColumn;
     @FXML private TableColumn<Part, String> partNameColumn;
     @FXML private TableColumn<Part, Integer> partInvColumn;
     @FXML private TableColumn<Part, Double> partPriceColumn;
     @FXML private TextField partSearchField;
-    @FXML private Label searchPartConfirmationLabel;
 
-    //Product Tableview properties
+    /**
+     * Fields of the Products Table
+     * TableView is the table that holds the data.
+     * TableColumns for id, name, inventory and price of products
+     * TextField for the searchbar.
+     */
     @FXML private TableView<Product> productTableView;
     @FXML private TableColumn<Product, Integer> productIdColumn;
     @FXML private TableColumn<Product, String> productNameColumn;
     @FXML private TableColumn<Product, Integer> productInvColumn;
     @FXML private TableColumn<Product, Double> productPriceColumn;
     @FXML private TextField productSearchField;
+
+    /**
+     * Labels that changes to show an error or confirmation message when searching.
+     */
     @FXML private Label searchProductConfirmationLabel;
+    @FXML private Label searchPartConfirmationLabel;
 
-    //Buttons
+    /**
+     * Field for the exit button that allows a user to exit the application.
+     */
     @FXML private Button exitAppButton;
-    @FXML private Button searchButton;
 
 
-
-    //When the "add" button is selected on the parts tableview, this goes to the scene AddPartInHouse.
+    /**
+     * Button labeled "Add" on the part side used to add a part to the Parts tableview.
+     * @param event
+     * @throws IOException
+     */
     public void addPartButtonSelected(ActionEvent event) throws IOException {
         Parent addPartInHouse = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddPart.fxml"));
         Scene addPartInHouseScene = new Scene(addPartInHouse);
@@ -52,25 +74,38 @@ public class MainController implements Initializable {
         window.show();
     }
 
-    //When the "Modify" button is selected on the parts tableview, this goes to the scene AddPartInHouse.
+    /**
+     * Button labeled "Modify" on the part side used to go to the modify scene of a selected part.
+     * @param event
+     * @throws IOException
+     */
     public void modifyPartButtonSelected(ActionEvent event) throws IOException {
-
+        //loads the ModifyPart FXML File
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/wgu/stone/view/ModifyPart.fxml"));
         Parent modifyPart = loader.load();
 
 
         Scene modifyPartScene = new Scene(modifyPart);
-        //need to access controller to call the method
-        ModifyPartController controller = loader.getController();
-        controller.initData(partTableView.getSelectionModel().getSelectedItem());
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(modifyPartScene);
-        window.show();
+        //Loads a selected part's information to the Modify Part Controller.
+        //If nothing is selected and the modify button is clicked, An alert pops up.
+        ModifyPartController controller = loader.getController();
+        try {
+            controller.initData(partTableView.getSelectionModel().getSelectedItem());
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(modifyPartScene);
+            window.show();
+        } catch (NullPointerException e) {
+            UtilityClass.errorAlerts(10);
+        }
     }
 
-    //When the "add" button is selected on the products tableview, this goes to the scene AddProductForm
+    /**
+     * Button labeled "Add" on the product side and routes to the AddProduct scene.
+     * @param event
+     * @throws IOException
+     */
     public void addProductButtonSelected(ActionEvent event) throws IOException {
         Parent addProduct = FXMLLoader.load(getClass().getResource("/wgu/stone/view/AddProduct.fxml"));
         Scene addProductScene = new Scene(addProduct);
@@ -79,7 +114,11 @@ public class MainController implements Initializable {
         window.show();
     }
 
-    //When the "Modify" button is selected on the products tableview, this goes to the scene ModifyProductForm.
+    /**
+     * Button labeled "Modify" on the product side used to go to the modify scene of a selected product.
+     * @param event
+     * @throws IOException
+     */
     public void modifyProductButtonSelected(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/wgu/stone/view/ModifyProduct.fxml"));
@@ -87,22 +126,31 @@ public class MainController implements Initializable {
 
 
         Scene modifyProductScene = new Scene(modifyProduct);
-        //need to access controller to call the method
-        ModifyProductController controller = loader.getController();
-        controller.initData(productTableView.getSelectionModel().getSelectedItem());
 
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(modifyProductScene);
-        window.show();
+        ModifyProductController controller = loader.getController();
+        try {
+            controller.initData(productTableView.getSelectionModel().getSelectedItem());
+            Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            window.setScene(modifyProductScene);
+            window.show();
+        } catch (NullPointerException e) {
+            UtilityClass.errorAlerts(10);
+        }
     }
 
-    //exits the application
+    /**
+     * Linked to the exit button on the page. Closes the application.
+     */
     @FXML
     public void exitApplication() {
         Stage window = (Stage) exitAppButton.getScene().getWindow();
         window.close();
     }
 
+    /**
+     * Linked to delete button for parts. Confirmation alert pops up for a selected part.
+     * User must confirm if they want to delete the part.
+     */
     @FXML
     public void deleteButtonPressed() {
         Part part = partTableView.getSelectionModel().getSelectedItem();
@@ -115,6 +163,10 @@ public class MainController implements Initializable {
             }
     }
 
+    /**
+     * Linked to delete button for products. Confirmation alert pops up for a selected product if no associated
+     * parts present. If associated parts are with the product, an error alert pops up preventing the delete action.
+     */
     @FXML
     public void deleteButtonPressedProduct() {
         Product product = productTableView.getSelectionModel().getSelectedItem();
@@ -132,6 +184,10 @@ public class MainController implements Initializable {
 
     }
 
+    /**
+     * Method for confirmation of finding parts through the search function.
+     * Changes a label in the UI to tell the user if a part was found or not based on ID or Name lookup.
+     */
     @FXML
     public void searchParts() {
 
@@ -161,6 +217,11 @@ public class MainController implements Initializable {
             }
         }
     }
+
+    /**
+     * Method for confirmation of finding parts through the search function.
+     * Changes a label in the UI to tell the user if a product was found or not based on ID or Name lookup.
+     */
     @FXML
     public void searchProducts() {
 
@@ -187,8 +248,11 @@ public class MainController implements Initializable {
     }
 
 
-
-    //Initializes the controller
+    /**
+     * Initializes the tables in the main scene and adds testing data.
+     * @param url
+     * @param rb
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
@@ -201,16 +265,18 @@ public class MainController implements Initializable {
 
 
 
-        //Columns initialized in Products tableview
+        //Columns initialized in Products tableview.
         productTableView.setItems(Inventory.getAllProducts());
         productIdColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productId"));
         productNameColumn.setCellValueFactory(new PropertyValueFactory<Product, String>("productName"));
         productInvColumn.setCellValueFactory(new PropertyValueFactory<Product, Integer>("productStock"));
         productPriceColumn.setCellValueFactory(new PropertyValueFactory<Product, Double>("productPrice"));
 
+        //labels initialized to be empty. Changed selection mode to multiple.
         searchPartConfirmationLabel.setText("");
         partTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+        //testing data.
         Part part1 = new InHousePart(1, "radiator", 7.5, 5, 1, 8,555);
         Part part2 = new InHousePart(2, "battery", 8.5, 5, 1, 8,546);
         Part part3 = new InHousePart(3, "engine", 9.5, 5, 1, 8,577);

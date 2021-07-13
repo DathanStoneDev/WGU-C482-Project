@@ -2,15 +2,10 @@ package wgu.stone.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import wgu.stone.model.Inventory;
 import wgu.stone.model.Part;
 import wgu.stone.model.Product;
@@ -29,6 +24,7 @@ public class ProductController implements Initializable {
     @FXML private TextField partSearchField;
 
     @FXML private Button cancelButton;
+    @FXML private Button saveButton;
 
     //Associated Parts tableview fields
     @FXML private TableView<Part> associatedTableView;
@@ -67,7 +63,7 @@ public class ProductController implements Initializable {
 
     //Saves a product
     @FXML
-    public void saveProduct(ActionEvent event) throws IOException {
+    public void saveProduct() throws IOException {
 
         String productName = productNameField.getText();
         if(productName.isEmpty()) {
@@ -140,17 +136,13 @@ public class ProductController implements Initializable {
         Inventory.addProduct(product);
 
 
-        Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-        Scene returnHomeScene = new Scene(returnHome);
-        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        window.setScene(returnHomeScene);
-        window.show();
+        UtilityClass.BackToMainScreen(saveButton);
     }
 
     //cancel button that goes back to the main screen
     @FXML
     public void cancelButton() throws IOException {
-        UtilityClass.cancelBackToMainScreen(cancelButton);
+        UtilityClass.BackToMainScreen(cancelButton);
     }
 
     @FXML

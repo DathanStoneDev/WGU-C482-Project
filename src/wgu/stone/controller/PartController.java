@@ -38,6 +38,8 @@ public class PartController implements Initializable {
 
     boolean isInHouse;
 
+    @FXML private Button saveButton;
+
     @FXML
     private void buttonInHouse(){
         labelChange.setText("Machine ID");
@@ -121,11 +123,7 @@ public class PartController implements Initializable {
             }
             Inventory.addPart(new InHousePart(partId, partName, partPrice, inv, min, max, machineId));
 
-            Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-            Scene returnHomeScene = new Scene(returnHome);
-            Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-            window.setScene(returnHomeScene);
-            window.show();
+            UtilityClass.BackToMainScreen(saveButton);
 
         } else {
             String companyName = partMachineIdField.getText();
@@ -134,13 +132,8 @@ public class PartController implements Initializable {
                 return;
             }
             Inventory.updatePart(new OutsourcedPart(partId, partName, partPrice, inv, min, max, companyName));
+            UtilityClass.BackToMainScreen(saveButton);
         }
-
-        Parent returnHome = FXMLLoader.load(getClass().getResource("/wgu/stone/view/MainWindow.fxml"));
-        Scene returnHomeScene = new Scene(returnHome);
-        Stage window = (Stage) ((Button) event.getSource()).getScene().getWindow();
-        window.setScene(returnHomeScene);
-        window.show();
     }
 
     @FXML
