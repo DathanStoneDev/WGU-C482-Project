@@ -83,7 +83,7 @@ public class PartController implements Initializable {
      * @throws IOException
      */
     @FXML
-    public void savePart() throws IOException{
+    public void savePart() throws IOException {
 
         //checks for an empty name field.
         String partName = partNameField.getText();

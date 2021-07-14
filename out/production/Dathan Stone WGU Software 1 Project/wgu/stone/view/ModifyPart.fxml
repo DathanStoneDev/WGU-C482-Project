@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wgu.stone.controller.ModifyPartController">
    <children>
-      <Label layoutX="25.0" layoutY="38.0" prefHeight="17.0" prefWidth="68.0" text="Add Part" />
+      <Label layoutX="25.0" layoutY="38.0" prefHeight="17.0" prefWidth="68.0" text="Modify Part" />
       <RadioButton fx:id="inHousePartButton" layoutX="135.0" layoutY="38.0" mnemonicParsing="false" onAction="#buttonInHouse" text="In-House">
          <toggleGroup>
             <ToggleGroup fx:id="addPartGroup" />

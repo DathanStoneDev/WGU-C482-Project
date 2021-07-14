@@ -1,6 +1,5 @@
 package wgu.stone.controller;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -12,7 +11,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
+/**
+ * ModifyPartController - Controls modification of parts
+ */
 public class ModifyPartController implements Initializable {
 
     /**
@@ -89,7 +90,7 @@ public class ModifyPartController implements Initializable {
      * @throws IOException
      */
     @FXML
-    public void saveModifiedPart () throws IOException{
+    public void saveModifiedPart () throws IOException {
         //grabs the ID that was auto-populated.
         int partId = Integer.parseInt(partIdField.getText());
         String partName = partNameField.getText();

@@ -188,6 +188,7 @@ public class MainController implements Initializable {
      * Method for confirmation of finding parts through the search function.
      * Changes a label in the UI to tell the user if a part was found or not based on ID or Name lookup.
      * The finally block clears the search field. Click the search button when empty to get a list of all parts.
+     * Search button must be pressed when search field is empty to refresh the list.
      */
     @FXML
     public void searchParts() {
@@ -200,10 +201,10 @@ public class MainController implements Initializable {
         } else {
             try {
                 int id = Integer.parseInt(q);
-                if(Inventory.lookupPartbyId(id) == null) {
+                if(Inventory.lookupPartById(id) == null) {
                     searchPartConfirmationLabel.setText("No ID by the name");
                 } else {
-                    partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
+                    partTableView.getSelectionModel().select(Inventory.lookupPartById(id));
                     searchPartConfirmationLabel.setText("ID Found");
                 }
             } catch (NumberFormatException e) {
@@ -223,6 +224,7 @@ public class MainController implements Initializable {
      * Method for confirmation of finding parts through the search function.
      * Changes a label in the UI to tell the user if a product was found or not based on ID or Name lookup.
      * The finally block clears the search field. Click the search button when empty to get a list of all products.
+     * Search button must be pressed when search field is empty to refresh the list.
      */
     @FXML
     public void searchProducts() {
@@ -238,7 +240,7 @@ public class MainController implements Initializable {
                 searchProductConfirmationLabel.setText("ID Found");
             }
         } catch (NumberFormatException n) {
-            productTableView.setItems((Inventory.lookupProduct(q)));
+            productTableView.setItems((Inventory.lookupProductByName(q)));
             if(productTableView.getItems().isEmpty()) {
                 searchProductConfirmationLabel.setText("Could not find a match");
             } else {

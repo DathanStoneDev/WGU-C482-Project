@@ -13,9 +13,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Product class: Responsible for creating products and showing them.
+ */
 public class ProductController implements Initializable {
 
-    //Part tableview fields
+    /**
+     * TextFields for all part attributes.
+     */
     @FXML private TableView<Part> partTableView;
     @FXML private TableColumn<Part, Integer> partIdColumn;
     @FXML private TableColumn<Part, String> partNameColumn;
@@ -23,10 +28,16 @@ public class ProductController implements Initializable {
     @FXML private TableColumn<Part, Double> partPriceColumn;
     @FXML private TextField partSearchField;
 
+    /**
+     * Save Button: Saves a product.
+     * Cancel Button: Routes to main page.
+     */
     @FXML private Button cancelButton;
     @FXML private Button saveButton;
 
-    //Associated Parts tableview fields
+    /**
+     * Associated Parts Tableview fields.
+     */
     @FXML private TableView<Part> associatedTableView;
     @FXML private TableColumn<Part, Integer> associatedIdColumn;
     @FXML private TableColumn<Part, String> associatedNameColumn;
@@ -34,7 +45,9 @@ public class ProductController implements Initializable {
     @FXML private TableColumn<Part, Double> associatedPriceColumn;
     @FXML private Label searchPartConfirmationLabel;
 
-    //Product Text fields
+    /**
+     * TextFields for all product attributes.
+     */
     @FXML private TextField productIdField;
     @FXML private TextField productNameField;
     @FXML private TextField productPriceField;
@@ -42,9 +55,19 @@ public class ProductController implements Initializable {
     @FXML private TextField minProductField;
     @FXML private TextField maxProductField;
 
+    /**
+     * Product object
+     */
     Product product = new Product();
+
+    /**
+     * Temporary list that holds associated parts.
+     */
     ObservableList<Part> holdParts = FXCollections.observableArrayList();
 
+    /**
+     * addAssociatedPart method adds a part to the holdParts list.
+     */
     @FXML
     public void addAssociatedPart() {
         //Grab a part
@@ -54,14 +77,19 @@ public class ProductController implements Initializable {
         holdParts.add(part);
     }
 
-    //removes part from temporary observable list
+    /**
+     * removeAssociatedPart method removes the part from the holdParts list.
+     */
     @FXML
     public void removeAssociatedPart() {
         Part part = associatedTableView.getSelectionModel().getSelectedItem();
         holdParts.remove(part);
     }
 
-    //Saves a product
+    /**
+     * saveProduct method validates product data and saves the product.
+     * @throws IOException
+     */
     @FXML
     public void saveProduct() throws IOException {
 
@@ -139,12 +167,21 @@ public class ProductController implements Initializable {
         UtilityClass.BackToMainScreen(saveButton);
     }
 
-    //cancel button that goes back to the main screen
+    /**
+     * cancelButton method sends the user back to the main screen once clicked.
+     * @throws IOException
+     */
     @FXML
     public void cancelButton() throws IOException {
         UtilityClass.BackToMainScreen(cancelButton);
     }
 
+    /**
+     * searches the parts in the partsTableView.
+     * Search will take partial strings and numbers for ID.
+     * Once search button is pressed, results will be shown.
+     * Search button needs to be pressed when empty to refresh the list.
+     */
     @FXML
     public void searchParts() {
 
@@ -156,10 +193,10 @@ public class ProductController implements Initializable {
         } else {
             try {
                 int id = Integer.parseInt(q);
-                if(Inventory.lookupPartbyId(id) == null) {
+                if(Inventory.lookupPartById(id) == null) {
                     searchPartConfirmationLabel.setText("No ID by the name");
                 } else {
-                    partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
+                    partTableView.getSelectionModel().select(Inventory.lookupPartById(id));
                     searchPartConfirmationLabel.setText("ID Found");
                 }
             } catch (NumberFormatException e) {
@@ -175,9 +212,11 @@ public class ProductController implements Initializable {
         }
     }
 
-
-
-
+    /**
+     * Initializes the tableviews.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

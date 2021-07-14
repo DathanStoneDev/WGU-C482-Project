@@ -10,7 +10,9 @@ public class OutsourcedPart extends Part{
      */
     private String companyName;
 
-    /**
+    /** RUNTIME ERROR
+     * The company name for the outsource part would not populate when the modify button was clicked.
+     * This was resolved by adding "this.companyName = companyName;" into the constructor.
      * Constructor that can create outsourced part objects.
      * @param id
      * @param name

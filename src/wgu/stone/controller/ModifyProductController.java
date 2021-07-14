@@ -13,8 +13,14 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * ModifyProductController - controls the modification of products.
+ */
 public class ModifyProductController implements Initializable {
 
+    /**
+     * TextFields for all product attributes.
+     */
     @FXML private TextField productIdField;
     @FXML private TextField productNameField;
     @FXML private TextField productPriceField;
@@ -22,9 +28,16 @@ public class ModifyProductController implements Initializable {
     @FXML private TextField minProductField;
     @FXML private TextField maxProductField;
 
+    /**
+     * Save Button: Saves a product.
+     * Cancel Button: Routes to main page.
+     */
     @FXML Button cancelButton;
     @FXML Button saveButton;
 
+    /**
+     * Parts Tableview fields.
+     */
     @FXML private TableView<Part> partTableView;
     @FXML private TableColumn<Part, Integer> partIdColumn;
     @FXML private TableColumn<Part, String> partNameColumn;
@@ -33,19 +46,31 @@ public class ModifyProductController implements Initializable {
     @FXML private TextField partSearchField;
     @FXML private Label searchPartConfirmationLabel;
 
+    /**
+     * Associated Parts Tableview fields.
+     */
     @FXML private TableView<Part> associatedTableView;
     @FXML private TableColumn<Part, Integer> associatedIdColumn;
     @FXML private TableColumn<Part, String> associatedNameColumn;
     @FXML private TableColumn<Part, Integer> associatedInvColumn;
     @FXML private TableColumn<Part, Double> associatedPriceColumn;
 
+    /**
+     * SelectedProduct is the variable that holds the data from the Main Controller.
+     */
     private Product selectedProduct;
+
+    /**
+     * Temporary list that holds associated parts.
+     */
     private ObservableList<Part> holdParts = FXCollections.observableArrayList();
 
-
-
-
+    /**
+     * saveModifiedProduct method validates data and saves the product.
+     * @throws IOException
+     */
     public void saveModifiedProduct() throws IOException {
+
         int productId = Integer.parseInt(productIdField.getText());
         String productName = productNameField.getText();
         if(productName.isEmpty()) {
@@ -115,6 +140,10 @@ public class ModifyProductController implements Initializable {
         UtilityClass.BackToMainScreen(saveButton);
     }
 
+    /**
+     * Initializes the data from the selected product.
+     * @param product
+     */
     public void initData(Product product) {
         selectedProduct = product;
         productIdField.setText(Integer.toString(selectedProduct.getProductId()));
@@ -131,6 +160,11 @@ public class ModifyProductController implements Initializable {
         associatedTableView.setItems(holdParts);
     }
 
+    /**
+     * Initializes the tableviews.
+     * @param location
+     * @param resources
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -152,7 +186,9 @@ public class ModifyProductController implements Initializable {
 
     }
 
-
+    /**
+     * addAssociatedPart method adds a part to the holdParts list.
+     */
     public void addAssociatedPart() {
         //Grab a part
         Part part = partTableView.getSelectionModel().getSelectedItem();
@@ -163,8 +199,9 @@ public class ModifyProductController implements Initializable {
         associatedTableView.setItems(holdParts);
     }
 
-
-
+    /**
+     * removeAssociatedPart method removes the part from the holdParts list.
+     */
     public void removeAssociatedPart() {
         Part part = associatedTableView.getSelectionModel().getSelectedItem();
         holdParts.remove(part);
@@ -172,12 +209,20 @@ public class ModifyProductController implements Initializable {
 
     }
 
-
+    /**
+     * cancelButton method sends the user back to the main screen once clicked.
+     * @throws IOException
+     */
     public void cancelButton() throws IOException {
         UtilityClass.BackToMainScreen(cancelButton);
     }
 
-
+    /**
+     * searches the parts in the partsTableView.
+     * Search will take partial strings and numbers for ID.
+     * Once search button is pressed, results will be shown.
+     * Search button needs to be pressed when empty to refresh the list.
+     */
     @FXML
     public void searchParts() {
 
@@ -189,10 +234,10 @@ public class ModifyProductController implements Initializable {
         } else {
             try {
                 int id = Integer.parseInt(q);
-                if(Inventory.lookupPartbyId(id) == null) {
+                if(Inventory.lookupPartById(id) == null) {
                     searchPartConfirmationLabel.setText("No ID by the name");
                 } else {
-                    partTableView.getSelectionModel().select(Inventory.lookupPartbyId(id));
+                    partTableView.getSelectionModel().select(Inventory.lookupPartById(id));
                     searchPartConfirmationLabel.setText("ID Found");
                 }
             } catch (NumberFormatException e) {
