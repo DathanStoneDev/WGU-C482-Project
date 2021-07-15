@@ -83,6 +83,14 @@ public final class UtilityClass {
                 alert.setContentText("Selector is empty. Please make a selection before modifying");
                 alert.showAndWait();
                 break;
+            case 11: alert.setTitle("Alert");
+                alert.setContentText("No Product has been selected.");
+                alert.showAndWait();
+                break;
+            case 12: alert.setTitle("Alert");
+                alert.setContentText("You have not selected a part to add");
+                alert.showAndWait();
+                break;
             default: alert.setTitle("Alert");
                      alert.setContentText("Error!");
                      alert.showAndWait();

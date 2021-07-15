@@ -177,7 +177,7 @@ public class PartController implements Initializable {
             }
 
             //adds part to the inventory.
-            Inventory.updatePart(new OutsourcedPart(partId, partName, partPrice, inv, min, max, companyName));
+            Inventory.updatePart(partId, new OutsourcedPart(partId, partName, partPrice, inv, min, max, companyName));
 
             //sends the user back to the main screen after a save has been successful.
             UtilityClass.BackToMainScreen(saveButton);

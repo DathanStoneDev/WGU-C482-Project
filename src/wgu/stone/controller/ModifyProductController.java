@@ -134,7 +134,7 @@ public class ModifyProductController implements Initializable {
 
 
 
-        Inventory.updateProduct(product);
+        Inventory.updateProduct(productId, product);
 
 
         UtilityClass.BackToMainScreen(saveButton);
@@ -192,11 +192,12 @@ public class ModifyProductController implements Initializable {
     public void addAssociatedPart() {
         //Grab a part
         Part part = partTableView.getSelectionModel().getSelectedItem();
-
-        //add the to observable list
-        holdParts.add(part);
-        //update the view.
-        associatedTableView.setItems(holdParts);
+        if(part != null) {
+            holdParts.add(part);
+            associatedTableView.setItems(holdParts);
+        } else {
+            UtilityClass.errorAlerts(12);
+        }
     }
 
     /**

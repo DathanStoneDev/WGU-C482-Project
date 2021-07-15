@@ -2,6 +2,7 @@ package wgu.stone.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import wgu.stone.controller.UtilityClass;
 
 /**
  * Inventory Class.
@@ -98,9 +99,9 @@ public class Inventory {
      * the "int i" is the INDEX parameter used to search through the allParts list.
      * @param newPart
      */
-    public static void updatePart(Part newPart) {
+    public static void updatePart(int index, Part newPart) {
         for(int i = 0; i < allParts.size(); i++) {
-            if(allParts.get(i).getId() == newPart.getId()) {
+            if(allParts.get(i).getId() == index) {
                allParts.set(i, newPart);
             }
         }
@@ -111,9 +112,9 @@ public class Inventory {
      * the "int i" is the INDEX parameter used to search through the allProducts list.
      * @param newProduct
      */
-    public static void updateProduct(Product newProduct) {
+    public static void updateProduct(int index, Product newProduct) {
         for(int i = 0; i < allProducts.size(); i++) {
-            if(allProducts.get(i).getProductId() == newProduct.getProductId()) {
+            if(allProducts.get(i).getProductId() == index) {
                 allProducts.set(i, newProduct);
             }
         }

@@ -160,7 +160,7 @@ public class ModifyPartController implements Initializable {
                 }
 
                 //updates the part in the inventory.
-                Inventory.updatePart(new InHousePart(partId, partName, partPrice, inv, min, max, machineId));
+                Inventory.updatePart(partId, new InHousePart(partId, partName, partPrice, inv, min, max, machineId));
 
                 //takes the user back to the main screen after a successful save.
                 UtilityClass.BackToMainScreen(saveButton);
@@ -177,7 +177,7 @@ public class ModifyPartController implements Initializable {
                 }
 
                 //updates the part in the inventory.
-                Inventory.updatePart(new OutsourcedPart(partId, partName, partPrice, inv, min, max, companyName));
+                Inventory.updatePart(partId, new OutsourcedPart(partId, partName, partPrice, inv, min, max, companyName));
 
                 //takes the user back to the main screen after a successful save.
                 UtilityClass.BackToMainScreen(saveButton);

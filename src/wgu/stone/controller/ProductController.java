@@ -70,11 +70,13 @@ public class ProductController implements Initializable {
      */
     @FXML
     public void addAssociatedPart() {
-        //Grab a part
+        //Grab a part and add to temporary list.
         Part part = partTableView.getSelectionModel().getSelectedItem();
-
-        //add the to temporary observable list
-        holdParts.add(part);
+        if(part != null) {
+            holdParts.add(part);
+        } else {
+            UtilityClass.errorAlerts(12);
+        }
     }
 
     /**

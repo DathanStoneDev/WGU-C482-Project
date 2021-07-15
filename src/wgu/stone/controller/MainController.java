@@ -170,18 +170,21 @@ public class MainController implements Initializable {
     @FXML
     public void deleteButtonPressedProduct() {
         Product product = productTableView.getSelectionModel().getSelectedItem();
-        if(product.getAssociatedParts().isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Alert");
-            alert.setContentText("Are you sure you want to delete the product?");
-            Optional<ButtonType> result = alert.showAndWait();
-            if(result.isPresent() && result.get() == ButtonType.OK) {
-                Inventory.deleteProduct(product);
+        try {
+            if(product.getAssociatedParts().isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Alert");
+                alert.setContentText("Are you sure you want to delete the product?");
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.isPresent() && result.get() == ButtonType.OK) {
+                    Inventory.deleteProduct(product);
+                }
+            } else {
+                UtilityClass.errorAlerts(3);
             }
-        } else {
-            UtilityClass.errorAlerts(3);
+        } catch (NullPointerException e) {
+            UtilityClass.errorAlerts(11);
         }
-
     }
 
     /**
